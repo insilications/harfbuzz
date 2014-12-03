@@ -1,0 +1,15 @@
+Configure miss: xlocale.h usability
+Configure miss: xlocale.h presence
+Configure miss: xlocale.h
+Configure miss: whether gcc is Clang
+Configure miss: whether more special flags are required for pthreads
+Configure miss: i686-generic-linux-gnu-objdump
+Configure miss: i686-generic-linux-gnu-dlltool
+Configure miss: i686-generic-linux-gnu-strip
+Configure miss: i686-generic-linux-gnu-mt
+Configure miss: i686-generic-linux-gnu-pkg-config
+Configure miss: xlocale.h usability
+Configure miss: xlocale.h presence
+Configure miss: xlocale.h
+Configure miss: whether gcc is Clang
+Configure miss: whether more special flags are required for pthreads

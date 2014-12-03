@@ -1,0 +1,1 @@
+--with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection
