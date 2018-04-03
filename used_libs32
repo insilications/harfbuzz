@@ -2,7 +2,7 @@ libc.so.6
 libfreetype.so.6
 libgcc_s.so.1
 libglib-2.0.so.0
-libicudata.so.55
-libicuuc.so.55
+libicudata.so.61
+libicuuc.so.61
 libm.so.6
 libstdc++.so.6

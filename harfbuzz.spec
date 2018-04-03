@@ -4,7 +4,7 @@
 #
 Name     : harfbuzz
 Version  : 1.7.5
-Release  : 58
+Release  : 59
 URL      : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.7.5.tar.bz2
 Source0  : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.7.5.tar.bz2
 Summary  : HarfBuzz text shaping library
@@ -107,7 +107,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1517534510
+export SOURCE_DATE_EPOCH=1522776750
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -127,7 +127,7 @@ export LDFLAGS="$LDFLAGS -m32"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1517534510
+export SOURCE_DATE_EPOCH=1522776750
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
