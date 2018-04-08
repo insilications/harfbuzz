@@ -4,7 +4,7 @@
 #
 Name     : harfbuzz
 Version  : 1.7.5
-Release  : 59
+Release  : 60
 URL      : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.7.5.tar.bz2
 Source0  : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.7.5.tar.bz2
 Summary  : HarfBuzz text shaping library
@@ -101,13 +101,16 @@ lib32 components for the harfbuzz package.
 pushd ..
 cp -a harfbuzz-1.7.5 build32
 popd
+pushd ..
+cp -a harfbuzz-1.7.5 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1522776750
+export SOURCE_DATE_EPOCH=1523200947
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -126,8 +129,16 @@ export LDFLAGS="$LDFLAGS -m32"
 %configure --disable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=haswell"
+export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
+export LDFLAGS="$LDFLAGS -m64 -march=haswell"
+%configure --disable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection   --libdir=/usr/lib64/haswell --bindir=/usr/bin/haswell
+make  %{?_smp_mflags}
+popd
 %install
-export SOURCE_DATE_EPOCH=1522776750
+export SOURCE_DATE_EPOCH=1523200947
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -138,6 +149,9 @@ for i in *.pc ; do ln -s $i 32$i ; done
 popd
 fi
 popd
+pushd ../buildavx2/
+%make_install
+popd
 %make_install
 
 %files
@@ -145,6 +159,9 @@ popd
 
 %files bin
 %defattr(-,root,root,-)
+/usr/bin/haswell/hb-ot-shape-closure
+/usr/bin/haswell/hb-shape
+/usr/bin/haswell/hb-view
 /usr/bin/hb-ot-shape-closure
 /usr/bin/hb-shape
 /usr/bin/hb-view
@@ -173,6 +190,7 @@ popd
 /usr/include/harfbuzz/hb-unicode.h
 /usr/include/harfbuzz/hb-version.h
 /usr/include/harfbuzz/hb.h
+/usr/lib64/haswell/libharfbuzz.so
 /usr/lib64/libharfbuzz-icu.so
 /usr/lib64/libharfbuzz.so
 /usr/lib64/pkgconfig/harfbuzz-icu.pc
@@ -280,6 +298,8 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/libharfbuzz.so.0
+/usr/lib64/haswell/libharfbuzz.so.0.10705.0
 /usr/lib64/libharfbuzz-icu.so.0
 /usr/lib64/libharfbuzz-icu.so.0.10705.0
 /usr/lib64/libharfbuzz.so.0
