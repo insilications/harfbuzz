@@ -4,7 +4,7 @@
 #
 Name     : harfbuzz
 Version  : 1.7.5
-Release  : 60
+Release  : 61
 URL      : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.7.5.tar.bz2
 Source0  : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.7.5.tar.bz2
 Summary  : HarfBuzz text shaping library
