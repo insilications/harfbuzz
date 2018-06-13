@@ -6,6 +6,7 @@ libharfbuzz-subset.so.0:hb_subset_get_all_codepoints
 libharfbuzz-subset.so.0:hb_subset_input_create_or_fail
 libharfbuzz-subset.so.0:hb_subset_input_destroy
 libharfbuzz-subset.so.0:hb_subset_input_drop_hints
+libharfbuzz-subset.so.0:hb_subset_input_drop_ot_layout
 libharfbuzz-subset.so.0:hb_subset_input_glyph_set
 libharfbuzz-subset.so.0:hb_subset_input_reference
 libharfbuzz-subset.so.0:hb_subset_input_unicode_set
@@ -224,6 +225,7 @@ libharfbuzz.so.0:hb_ot_layout_language_get_required_feature_index
 libharfbuzz.so.0:hb_ot_layout_lookup_collect_glyphs
 libharfbuzz.so.0:hb_ot_layout_lookup_substitute_closure
 libharfbuzz.so.0:hb_ot_layout_lookup_would_substitute
+libharfbuzz.so.0:hb_ot_layout_lookups_substitute_closure
 libharfbuzz.so.0:hb_ot_layout_script_find_language
 libharfbuzz.so.0:hb_ot_layout_script_get_language_tags
 libharfbuzz.so.0:hb_ot_layout_table_choose_script
@@ -277,6 +279,7 @@ libharfbuzz.so.0:hb_set_intersect
 libharfbuzz.so.0:hb_set_invert
 libharfbuzz.so.0:hb_set_is_empty
 libharfbuzz.so.0:hb_set_is_equal
+libharfbuzz.so.0:hb_set_is_subset
 libharfbuzz.so.0:hb_set_next
 libharfbuzz.so.0:hb_set_next_range
 libharfbuzz.so.0:hb_set_previous
