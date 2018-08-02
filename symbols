@@ -206,6 +206,7 @@ libharfbuzz.so.0:hb_map_reference
 libharfbuzz.so.0:hb_map_set
 libharfbuzz.so.0:hb_map_set_user_data
 libharfbuzz.so.0:hb_ot_font_set_funcs
+libharfbuzz.so.0:hb_ot_layout_collect_features
 libharfbuzz.so.0:hb_ot_layout_collect_lookups
 libharfbuzz.so.0:hb_ot_layout_feature_get_lookups
 libharfbuzz.so.0:hb_ot_layout_feature_with_variations_get_lookups
