@@ -4,7 +4,7 @@
 #
 Name     : harfbuzz
 Version  : 1.8.6
-Release  : 70
+Release  : 71
 URL      : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.8.6.tar.bz2
 Source0  : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.8.6.tar.bz2
 Summary  : HarfBuzz text shaping library
@@ -125,7 +125,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1533750949
+export SOURCE_DATE_EPOCH=1533751638
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -133,7 +133,7 @@ export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-m
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-%configure --disable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection
+%configure --disable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection --with-graphite2
 make  %{?_smp_mflags}
 
 pushd ../build32/
@@ -141,7 +141,7 @@ export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
-%configure --disable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+%configure --disable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection --with-graphite2   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
 unset PKG_CONFIG_PATH
@@ -149,11 +149,11 @@ pushd ../buildavx2/
 export CFLAGS="$CFLAGS -m64 -march=haswell"
 export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
 export LDFLAGS="$LDFLAGS -m64 -march=haswell"
-%configure --disable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection
+%configure --disable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection --with-graphite2
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1533750949
+export SOURCE_DATE_EPOCH=1533751638
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/harfbuzz
 cp COPYING %{buildroot}/usr/share/doc/harfbuzz/COPYING
@@ -209,6 +209,7 @@ popd
 /usr/include/harfbuzz/hb-font.h
 /usr/include/harfbuzz/hb-ft.h
 /usr/include/harfbuzz/hb-glib.h
+/usr/include/harfbuzz/hb-graphite2.h
 /usr/include/harfbuzz/hb-icu.h
 /usr/include/harfbuzz/hb-map.h
 /usr/include/harfbuzz/hb-ot-font.h
