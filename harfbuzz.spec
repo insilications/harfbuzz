@@ -4,7 +4,7 @@
 #
 Name     : harfbuzz
 Version  : 1.9.0
-Release  : 74
+Release  : 75
 URL      : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.9.0.tar.bz2
 Source0  : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.9.0.tar.bz2
 Summary  : HarfBuzz text shaping library
@@ -40,7 +40,6 @@ BuildRequires : pkgconfig(cairo-ft)
 BuildRequires : pkgconfig(fontconfig)
 BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
-BuildRequires : pkgconfig(gobject-introspection-1.0)
 BuildRequires : pkgconfig(icu-uc)
 
 %description
@@ -125,7 +124,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1536634160
+export SOURCE_DATE_EPOCH=1536637145
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -153,7 +152,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1536634160
+export SOURCE_DATE_EPOCH=1536637145
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/harfbuzz
 cp COPYING %{buildroot}/usr/share/doc/harfbuzz/COPYING
