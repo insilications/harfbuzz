@@ -45,6 +45,7 @@ libharfbuzz.so.0:hb_buffer_get_empty
 libharfbuzz.so.0:hb_buffer_get_flags
 libharfbuzz.so.0:hb_buffer_get_glyph_infos
 libharfbuzz.so.0:hb_buffer_get_glyph_positions
+libharfbuzz.so.0:hb_buffer_get_invisible_glyph
 libharfbuzz.so.0:hb_buffer_get_language
 libharfbuzz.so.0:hb_buffer_get_length
 libharfbuzz.so.0:hb_buffer_get_replacement_codepoint
@@ -68,6 +69,7 @@ libharfbuzz.so.0:hb_buffer_set_cluster_level
 libharfbuzz.so.0:hb_buffer_set_content_type
 libharfbuzz.so.0:hb_buffer_set_direction
 libharfbuzz.so.0:hb_buffer_set_flags
+libharfbuzz.so.0:hb_buffer_set_invisible_glyph
 libharfbuzz.so.0:hb_buffer_set_language
 libharfbuzz.so.0:hb_buffer_set_length
 libharfbuzz.so.0:hb_buffer_set_message_func
@@ -131,6 +133,7 @@ libharfbuzz.so.0:hb_font_funcs_set_glyph_v_advances_func
 libharfbuzz.so.0:hb_font_funcs_set_glyph_v_kerning_func
 libharfbuzz.so.0:hb_font_funcs_set_glyph_v_origin_func
 libharfbuzz.so.0:hb_font_funcs_set_nominal_glyph_func
+libharfbuzz.so.0:hb_font_funcs_set_nominal_glyphs_func
 libharfbuzz.so.0:hb_font_funcs_set_user_data
 libharfbuzz.so.0:hb_font_funcs_set_variation_glyph_func
 libharfbuzz.so.0:hb_font_get_empty
@@ -219,7 +222,9 @@ libharfbuzz.so.0:hb_map_set_user_data
 libharfbuzz.so.0:hb_ot_font_set_funcs
 libharfbuzz.so.0:hb_ot_layout_collect_features
 libharfbuzz.so.0:hb_ot_layout_collect_lookups
+libharfbuzz.so.0:hb_ot_layout_feature_get_characters
 libharfbuzz.so.0:hb_ot_layout_feature_get_lookups
+libharfbuzz.so.0:hb_ot_layout_feature_get_name_ids
 libharfbuzz.so.0:hb_ot_layout_feature_with_variations_get_lookups
 libharfbuzz.so.0:hb_ot_layout_get_attach_points
 libharfbuzz.so.0:hb_ot_layout_get_glyph_class
@@ -240,12 +245,14 @@ libharfbuzz.so.0:hb_ot_layout_lookup_would_substitute
 libharfbuzz.so.0:hb_ot_layout_lookups_substitute_closure
 libharfbuzz.so.0:hb_ot_layout_script_find_language
 libharfbuzz.so.0:hb_ot_layout_script_get_language_tags
+libharfbuzz.so.0:hb_ot_layout_script_select_language
 libharfbuzz.so.0:hb_ot_layout_table_choose_script
 libharfbuzz.so.0:hb_ot_layout_table_find_feature_variations
 libharfbuzz.so.0:hb_ot_layout_table_find_script
 libharfbuzz.so.0:hb_ot_layout_table_get_feature_tags
 libharfbuzz.so.0:hb_ot_layout_table_get_lookup_count
 libharfbuzz.so.0:hb_ot_layout_table_get_script_tags
+libharfbuzz.so.0:hb_ot_layout_table_select_script
 libharfbuzz.so.0:hb_ot_math_get_constant
 libharfbuzz.so.0:hb_ot_math_get_glyph_assembly
 libharfbuzz.so.0:hb_ot_math_get_glyph_italics_correction
@@ -261,6 +268,8 @@ libharfbuzz.so.0:hb_ot_tag_from_language
 libharfbuzz.so.0:hb_ot_tag_to_language
 libharfbuzz.so.0:hb_ot_tag_to_script
 libharfbuzz.so.0:hb_ot_tags_from_script
+libharfbuzz.so.0:hb_ot_tags_from_script_and_language
+libharfbuzz.so.0:hb_ot_tags_to_script_and_language
 libharfbuzz.so.0:hb_ot_var_find_axis
 libharfbuzz.so.0:hb_ot_var_get_axes
 libharfbuzz.so.0:hb_ot_var_get_axis_count
