@@ -11,6 +11,9 @@ libharfbuzz-subset.so.0:hb_subset_input_reference
 libharfbuzz-subset.so.0:hb_subset_input_set_drop_hints
 libharfbuzz-subset.so.0:hb_subset_input_set_drop_layout
 libharfbuzz-subset.so.0:hb_subset_input_unicode_set
+libharfbuzz.so.0:hb_aat_layout_feature_type_get_name_id
+libharfbuzz.so.0:hb_aat_layout_feature_type_get_selector_infos
+libharfbuzz.so.0:hb_aat_layout_get_feature_types
 libharfbuzz.so.0:hb_blob_copy_writable_or_fail
 libharfbuzz.so.0:hb_blob_create
 libharfbuzz.so.0:hb_blob_create_from_file
@@ -287,9 +290,15 @@ libharfbuzz.so.0:hb_ot_tags_from_script
 libharfbuzz.so.0:hb_ot_tags_from_script_and_language
 libharfbuzz.so.0:hb_ot_tags_to_script_and_language
 libharfbuzz.so.0:hb_ot_var_find_axis
+libharfbuzz.so.0:hb_ot_var_find_axis_info
 libharfbuzz.so.0:hb_ot_var_get_axes
 libharfbuzz.so.0:hb_ot_var_get_axis_count
+libharfbuzz.so.0:hb_ot_var_get_axis_infos
+libharfbuzz.so.0:hb_ot_var_get_named_instance_count
 libharfbuzz.so.0:hb_ot_var_has_data
+libharfbuzz.so.0:hb_ot_var_named_instance_get_design_coords
+libharfbuzz.so.0:hb_ot_var_named_instance_get_postscript_name_id
+libharfbuzz.so.0:hb_ot_var_named_instance_get_subfamily_name_id
 libharfbuzz.so.0:hb_ot_var_normalize_coords
 libharfbuzz.so.0:hb_ot_var_normalize_variations
 libharfbuzz.so.0:hb_script_from_iso15924_tag
