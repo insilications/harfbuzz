@@ -7,11 +7,13 @@ libharfbuzz-subset.so.0:hb_subset_input_destroy
 libharfbuzz-subset.so.0:hb_subset_input_get_desubroutinize
 libharfbuzz-subset.so.0:hb_subset_input_get_drop_hints
 libharfbuzz-subset.so.0:hb_subset_input_get_drop_layout
+libharfbuzz-subset.so.0:hb_subset_input_get_retain_gids
 libharfbuzz-subset.so.0:hb_subset_input_glyph_set
 libharfbuzz-subset.so.0:hb_subset_input_reference
 libharfbuzz-subset.so.0:hb_subset_input_set_desubroutinize
 libharfbuzz-subset.so.0:hb_subset_input_set_drop_hints
 libharfbuzz-subset.so.0:hb_subset_input_set_drop_layout
+libharfbuzz-subset.so.0:hb_subset_input_set_retain_gids
 libharfbuzz-subset.so.0:hb_subset_input_unicode_set
 libharfbuzz.so.0:hb_aat_layout_feature_type_get_name_id
 libharfbuzz.so.0:hb_aat_layout_feature_type_get_selector_infos
