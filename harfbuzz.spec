@@ -4,7 +4,7 @@
 #
 Name     : harfbuzz
 Version  : 2.4.0
-Release  : 84
+Release  : 85
 URL      : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.4.0.tar.bz2
 Source0  : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.4.0.tar.bz2
 Summary  : OpenType text shaping engine
