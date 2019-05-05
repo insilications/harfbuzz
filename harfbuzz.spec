@@ -4,7 +4,7 @@
 #
 Name     : harfbuzz
 Version  : 2.4.0
-Release  : 85
+Release  : 86
 URL      : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.4.0.tar.bz2
 Source0  : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.4.0.tar.bz2
 Summary  : OpenType text shaping engine
@@ -125,7 +125,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1553900702
+export SOURCE_DATE_EPOCH=1557094750
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -154,7 +154,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1553900702
+export SOURCE_DATE_EPOCH=1557094750
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/harfbuzz
 cp COPYING %{buildroot}/usr/share/package-licenses/harfbuzz/COPYING
