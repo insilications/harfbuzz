@@ -4,7 +4,7 @@
 #
 Name     : harfbuzz
 Version  : 2.5.1
-Release  : 88
+Release  : 89
 URL      : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.5.1.tar.xz
 Source0  : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.5.1.tar.xz
 Summary  : OpenType text shaping engine
