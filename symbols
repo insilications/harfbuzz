@@ -197,6 +197,7 @@ libharfbuzz.so.0:hb_font_set_scale
 libharfbuzz.so.0:hb_font_set_user_data
 libharfbuzz.so.0:hb_font_set_var_coords_design
 libharfbuzz.so.0:hb_font_set_var_coords_normalized
+libharfbuzz.so.0:hb_font_set_var_named_instance
 libharfbuzz.so.0:hb_font_set_variations
 libharfbuzz.so.0:hb_font_subtract_glyph_origin_for_direction
 libharfbuzz.so.0:hb_ft_face_create
@@ -253,6 +254,7 @@ libharfbuzz.so.0:hb_ot_layout_feature_get_lookups
 libharfbuzz.so.0:hb_ot_layout_feature_get_name_ids
 libharfbuzz.so.0:hb_ot_layout_feature_with_variations_get_lookups
 libharfbuzz.so.0:hb_ot_layout_get_attach_points
+libharfbuzz.so.0:hb_ot_layout_get_baseline
 libharfbuzz.so.0:hb_ot_layout_get_glyph_class
 libharfbuzz.so.0:hb_ot_layout_get_glyphs_in_class
 libharfbuzz.so.0:hb_ot_layout_get_ligature_carets
@@ -288,6 +290,12 @@ libharfbuzz.so.0:hb_ot_math_get_glyph_variants
 libharfbuzz.so.0:hb_ot_math_get_min_connector_overlap
 libharfbuzz.so.0:hb_ot_math_has_data
 libharfbuzz.so.0:hb_ot_math_is_glyph_extended_shape
+libharfbuzz.so.0:hb_ot_meta_get_entry_tags
+libharfbuzz.so.0:hb_ot_meta_reference_entry
+libharfbuzz.so.0:hb_ot_metrics_get_position
+libharfbuzz.so.0:hb_ot_metrics_get_variation
+libharfbuzz.so.0:hb_ot_metrics_get_x_variation
+libharfbuzz.so.0:hb_ot_metrics_get_y_variation
 libharfbuzz.so.0:hb_ot_name_get_utf16
 libharfbuzz.so.0:hb_ot_name_get_utf32
 libharfbuzz.so.0:hb_ot_name_get_utf8
