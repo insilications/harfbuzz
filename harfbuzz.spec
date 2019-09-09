@@ -4,10 +4,10 @@
 #
 Name     : harfbuzz
 Version  : 2.6.1
-Release  : 93
+Release  : 94
 URL      : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.1.tar.xz
 Source0  : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.1.tar.xz
-Summary  : OpenType text shaping engine
+Summary  : HarfBuzz text shaping library
 Group    : Development/Tools
 License  : Apache-2.0 MIT OFL-1.1
 Requires: harfbuzz-bin = %{version}-%{release}
@@ -60,7 +60,6 @@ Group: Development
 Requires: harfbuzz-lib = %{version}-%{release}
 Requires: harfbuzz-bin = %{version}-%{release}
 Provides: harfbuzz-devel = %{version}-%{release}
-Requires: harfbuzz = %{version}-%{release}
 Requires: harfbuzz = %{version}-%{release}
 
 %description dev
@@ -126,8 +125,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1566661715
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1568057685
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -142,9 +140,9 @@ make  %{?_smp_mflags}
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
-export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
-export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
-export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 %configure --disable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection --with-graphite2   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
@@ -157,7 +155,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1566661715
+export SOURCE_DATE_EPOCH=1568057685
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/harfbuzz
 cp COPYING %{buildroot}/usr/share/package-licenses/harfbuzz/COPYING
