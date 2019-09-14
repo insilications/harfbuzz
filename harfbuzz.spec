@@ -4,7 +4,7 @@
 #
 Name     : harfbuzz
 Version  : 2.6.1
-Release  : 94
+Release  : 95
 URL      : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.1.tar.xz
 Source0  : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.1.tar.xz
 Summary  : HarfBuzz text shaping library
