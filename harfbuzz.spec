@@ -4,10 +4,10 @@
 #
 Name     : harfbuzz
 Version  : 2.6.4
-Release  : 99
+Release  : 100
 URL      : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.4.tar.xz
 Source0  : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.4.tar.xz
-Summary  : OpenType text shaping engine
+Summary  : HarfBuzz text shaping library
 Group    : Development/Tools
 License  : Apache-2.0 MIT OFL-1.1
 Requires: harfbuzz-bin = %{version}-%{release}
@@ -42,6 +42,7 @@ BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
 BuildRequires : pkgconfig(icu-uc)
 BuildRequires : util-linux
+Patch1: backport-fix-check.patch
 
 %description
 This is HarfBuzz, a text shaping library.
@@ -61,7 +62,6 @@ Group: Development
 Requires: harfbuzz-lib = %{version}-%{release}
 Requires: harfbuzz-bin = %{version}-%{release}
 Provides: harfbuzz-devel = %{version}-%{release}
-Requires: harfbuzz = %{version}-%{release}
 Requires: harfbuzz = %{version}-%{release}
 
 %description dev
@@ -115,6 +115,8 @@ license components for the harfbuzz package.
 
 %prep
 %setup -q -n harfbuzz-2.6.4
+cd %{_builddir}/harfbuzz-2.6.4
+%patch1 -p1
 pushd ..
 cp -a harfbuzz-2.6.4 build32
 popd
@@ -127,15 +129,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1572437286
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1587137867
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 %configure --disable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection --with-graphite2
 make  %{?_smp_mflags}
@@ -153,12 +154,25 @@ unset PKG_CONFIG_PATH
 pushd ../buildavx2/
 export CFLAGS="$CFLAGS -m64 -march=haswell"
 export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
+export FFLAGS="$FFLAGS -m64 -march=haswell"
+export FCFLAGS="$FCFLAGS -m64 -march=haswell"
 export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 %configure --disable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection --with-graphite2
 make  %{?_smp_mflags}
 popd
+%check
+export LANG=C.UTF-8
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
+make VERBOSE=1 V=1 %{?_smp_mflags} check
+cd ../build32;
+make VERBOSE=1 V=1 %{?_smp_mflags} check || :
+cd ../buildavx2;
+make VERBOSE=1 V=1 %{?_smp_mflags} check || :
+
 %install
-export SOURCE_DATE_EPOCH=1572437286
+export SOURCE_DATE_EPOCH=1587137867
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/harfbuzz
 cp %{_builddir}/harfbuzz-2.6.4/COPYING %{buildroot}/usr/share/package-licenses/harfbuzz/04542733e710db7b4d9d871984846b31b8b907ac
