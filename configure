@@ -1,1 +1,1 @@
---with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection --with-graphite2
+-Ddefault_library=both -Dglib=enabled -Dgobject=enabled -Dcairo=enabled -Dfontconfig=enabled -Dicu=enabled -Dgraphite=enabled -Dfreetype=enabled -Dtests=enabled -Dintrospection=enabled

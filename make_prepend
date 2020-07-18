@@ -1,0 +1,2 @@
+find . -type f -name '*.json' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+find . -type f -name '*.ninja' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
