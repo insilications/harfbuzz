@@ -5,9 +5,9 @@
 %define keepstatic 1
 Name     : harfbuzz
 Version  : 2.6.8
-Release  : 2
-URL      : /insilications/build/clearlinux/packages/harfbuzz/harfbuzz-2.6.8.zip
-Source0  : /insilications/build/clearlinux/packages/harfbuzz/harfbuzz-2.6.8.zip
+Release  : 3
+URL      : file:///insilications/build/clearlinux/packages/harfbuzz/harfbuzz-2.6.8.zip
+Source0  : file:///insilications/build/clearlinux/packages/harfbuzz/harfbuzz-2.6.8.zip
 Summary  : HarfBuzz text shaping library
 Group    : Development/Tools
 License  : BSD-2-Clause
@@ -44,7 +44,6 @@ BuildRequires : util-linux-dev
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
-Patch1: 0001-Fix-check-symbols.py-for-PGO-builds.patch
 
 %description
 
@@ -100,7 +99,6 @@ staticdev components for the harfbuzz package.
 %prep
 %setup -q -n harfbuzz-2.6.8
 cd %{_builddir}/harfbuzz-2.6.8
-%patch1 -p1
 
 %build
 ## build_prepend content
@@ -110,7 +108,7 @@ unset http_proxy
 unset https_proxy
 unset no_proxy
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1595288932
+export SOURCE_DATE_EPOCH=1595289281
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -169,7 +167,7 @@ unset no_proxy
 VERBOSE=1 V=1 make -j16 check
 
 %install
-export SOURCE_DATE_EPOCH=1595288932
+export SOURCE_DATE_EPOCH=1595289281
 rm -rf %{buildroot}
 %make_install
 
