@@ -1,1 +1,1 @@
-ninja -v -C builddir test
+VERBOSE=1 V=1 make -j16 check

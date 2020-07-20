@@ -16,3 +16,9 @@ gmodule-export-2.0
 gmodule-no-export-2.0
 gobject-2.0
 gthread-2.0
+cairo
+cairo-ft
+fontconfig
+glib-2.0
+gobject-2.0
+icu-uc

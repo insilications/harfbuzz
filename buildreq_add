@@ -5,6 +5,7 @@
 gobject-introspection-dev
 gobject-introspection
 graphite-dev
+python3-core
 pkg-config
 util-linux
 util-linux-dev
@@ -17,3 +18,12 @@ libxslt-bin
 pkg-config
 gcc-dev
 glib-dev
+buildreq-cmake
+docbook-xml
+gobject-introspection
+gobject-introspection-dev
+graphite-dev
+gtk-doc
+gtk-doc-dev
+libxslt-bin
+pkg-config

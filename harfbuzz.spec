@@ -4,13 +4,17 @@
 #
 %define keepstatic 1
 Name     : harfbuzz
-Version  : 2.6.7
-Release  : 101
-URL      : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.7.tar.xz
-Source0  : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.7.tar.xz
+Version  : 2.6.8
+Release  : 1
+URL      : /insilications/build/clearlinux/packages/harfbuzz/harfbuzz-2.6.8.zip
+Source0  : /insilications/build/clearlinux/packages/harfbuzz/harfbuzz-2.6.8.zip
 Summary  : HarfBuzz text shaping library
 Group    : Development/Tools
 License  : BSD-2-Clause
+Requires: harfbuzz-bin = %{version}-%{release}
+Requires: harfbuzz-data = %{version}-%{release}
+Requires: harfbuzz-lib = %{version}-%{release}
+BuildRequires : buildreq-cmake
 BuildRequires : buildreq-meson
 BuildRequires : docbook-xml
 BuildRequires : gcc-dev
@@ -34,29 +38,79 @@ BuildRequires : pkgconfig(gmodule-no-export-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
 BuildRequires : pkgconfig(gthread-2.0)
 BuildRequires : pkgconfig(icu-uc)
+BuildRequires : python3-core
 BuildRequires : util-linux
 BuildRequires : util-linux-dev
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
+Patch1: 0001-Fix-check-symbols.py-for-PGO-builds.patch
 
 %description
-This is HarfBuzz, a text shaping library.
+
+
+%package bin
+Summary: bin components for the harfbuzz package.
+Group: Binaries
+Requires: harfbuzz-data = %{version}-%{release}
+
+%description bin
+bin components for the harfbuzz package.
+
+
+%package data
+Summary: data components for the harfbuzz package.
+Group: Data
+
+%description data
+data components for the harfbuzz package.
+
+
+%package dev
+Summary: dev components for the harfbuzz package.
+Group: Development
+Requires: harfbuzz-lib = %{version}-%{release}
+Requires: harfbuzz-bin = %{version}-%{release}
+Requires: harfbuzz-data = %{version}-%{release}
+Provides: harfbuzz-devel = %{version}-%{release}
+Requires: harfbuzz = %{version}-%{release}
+
+%description dev
+dev components for the harfbuzz package.
+
+
+%package lib
+Summary: lib components for the harfbuzz package.
+Group: Libraries
+Requires: harfbuzz-data = %{version}-%{release}
+
+%description lib
+lib components for the harfbuzz package.
+
+
+%package staticdev
+Summary: staticdev components for the harfbuzz package.
+Group: Default
+Requires: harfbuzz-dev = %{version}-%{release}
+
+%description staticdev
+staticdev components for the harfbuzz package.
+
 
 %prep
-%setup -q -n harfbuzz-2.6.7
-cd %{_builddir}/harfbuzz-2.6.7
+%setup -q -n harfbuzz-2.6.8
+cd %{_builddir}/harfbuzz-2.6.8
+%patch1 -p1
 
 %build
 ## build_prepend content
-find . -type f -name '*.json' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
-find . -type f -name '*.ninja' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+#find . -type f -name '*.build' -print -exec touch {} \;
 ## build_prepend end
 unset http_proxy
 unset https_proxy
 unset no_proxy
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1595099132
+export SOURCE_DATE_EPOCH=1595277337
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -83,22 +137,119 @@ export RANLIB=gcc-ranlib
 export NM=gcc-nm
 #export CCACHE_DISABLE=1
 ## altflags_pgo end
-CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Ddefault_library=both -Dglib=enabled -Dgobject=enabled -Dcairo=enabled -Dfontconfig=enabled -Dicu=enabled -Dgraphite=enabled -Dfreetype=enabled -Dtests=enabled -Dintrospection=enabled  builddir
+export CFLAGS="${CFLAGS_GENERATE}"
+export CXXFLAGS="${CXXFLAGS_GENERATE}"
+export FFLAGS="${FFLAGS_GENERATE}"
+export FCFLAGS="${FCFLAGS_GENERATE}"
+export LDFLAGS="${LDFLAGS_GENERATE}"
+%autogen  --enable-shared --enable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection --with-graphite2 --with-gobject
 ## make_prepend content
-find . -type f -name '*.json' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
-find . -type f -name '*.ninja' -exec sed -i 's/\-fPIC/\-fpic/g' {} \;
+#find . -type f -name '*.build' -print -exec touch {} \;
 ## make_prepend end
-ninja -v -C builddir
+make  %{?_smp_mflags}
+
+VERBOSE=1 V=1 make -j16 check
+make clean
+export CFLAGS="${CFLAGS_USE}"
+export CXXFLAGS="${CXXFLAGS_USE}"
+export FFLAGS="${FFLAGS_USE}"
+export FCFLAGS="${FCFLAGS_USE}"
+export LDFLAGS="${LDFLAGS_USE}"
+%autogen  --enable-shared --enable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection --with-graphite2 --with-gobject
+## make_prepend content
+#find . -type f -name '*.build' -print -exec touch {} \;
+## make_prepend end
+make  %{?_smp_mflags}
 
 %check
 export LANG=C.UTF-8
 unset http_proxy
 unset https_proxy
 unset no_proxy
-ninja -v -C builddir test
+VERBOSE=1 V=1 make -j16 check
 
 %install
-DESTDIR=%{buildroot} ninja -C builddir install
+export SOURCE_DATE_EPOCH=1595277337
+rm -rf %{buildroot}
+%make_install
 
 %files
 %defattr(-,root,root,-)
+
+%files bin
+%defattr(-,root,root,-)
+/usr/bin/hb-ot-shape-closure
+/usr/bin/hb-shape
+/usr/bin/hb-subset
+/usr/bin/hb-view
+
+%files data
+%defattr(-,root,root,-)
+/usr/lib64/girepository-1.0/HarfBuzz-0.0.typelib
+/usr/share/gir-1.0/*.gir
+
+%files dev
+%defattr(-,root,root,-)
+/usr/include/harfbuzz/hb-aat-layout.h
+/usr/include/harfbuzz/hb-aat.h
+/usr/include/harfbuzz/hb-blob.h
+/usr/include/harfbuzz/hb-buffer.h
+/usr/include/harfbuzz/hb-common.h
+/usr/include/harfbuzz/hb-deprecated.h
+/usr/include/harfbuzz/hb-draw.h
+/usr/include/harfbuzz/hb-face.h
+/usr/include/harfbuzz/hb-font.h
+/usr/include/harfbuzz/hb-ft.h
+/usr/include/harfbuzz/hb-glib.h
+/usr/include/harfbuzz/hb-gobject-enums.h
+/usr/include/harfbuzz/hb-gobject-structs.h
+/usr/include/harfbuzz/hb-gobject.h
+/usr/include/harfbuzz/hb-graphite2.h
+/usr/include/harfbuzz/hb-icu.h
+/usr/include/harfbuzz/hb-map.h
+/usr/include/harfbuzz/hb-ot-color.h
+/usr/include/harfbuzz/hb-ot-deprecated.h
+/usr/include/harfbuzz/hb-ot-font.h
+/usr/include/harfbuzz/hb-ot-layout.h
+/usr/include/harfbuzz/hb-ot-math.h
+/usr/include/harfbuzz/hb-ot-meta.h
+/usr/include/harfbuzz/hb-ot-metrics.h
+/usr/include/harfbuzz/hb-ot-name.h
+/usr/include/harfbuzz/hb-ot-shape.h
+/usr/include/harfbuzz/hb-ot-var.h
+/usr/include/harfbuzz/hb-ot.h
+/usr/include/harfbuzz/hb-set.h
+/usr/include/harfbuzz/hb-shape-plan.h
+/usr/include/harfbuzz/hb-shape.h
+/usr/include/harfbuzz/hb-style.h
+/usr/include/harfbuzz/hb-subset.h
+/usr/include/harfbuzz/hb-unicode.h
+/usr/include/harfbuzz/hb-version.h
+/usr/include/harfbuzz/hb.h
+/usr/lib64/cmake/harfbuzz/harfbuzz-config.cmake
+/usr/lib64/libharfbuzz-gobject.so
+/usr/lib64/libharfbuzz-icu.so
+/usr/lib64/libharfbuzz-subset.so
+/usr/lib64/libharfbuzz.so
+/usr/lib64/pkgconfig/harfbuzz-gobject.pc
+/usr/lib64/pkgconfig/harfbuzz-icu.pc
+/usr/lib64/pkgconfig/harfbuzz-subset.pc
+/usr/lib64/pkgconfig/harfbuzz.pc
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/libharfbuzz-gobject.so.0
+/usr/lib64/libharfbuzz-gobject.so.0.20608.0
+/usr/lib64/libharfbuzz-icu.so.0
+/usr/lib64/libharfbuzz-icu.so.0.20608.0
+/usr/lib64/libharfbuzz-subset.so.0
+/usr/lib64/libharfbuzz-subset.so.0.20608.0
+/usr/lib64/libharfbuzz.so.0
+/usr/lib64/libharfbuzz.so.0.20608.0
+
+%files staticdev
+%defattr(-,root,root,-)
+/usr/lib64/libharfbuzz-gobject.a
+/usr/lib64/libharfbuzz-icu.a
+/usr/lib64/libharfbuzz-subset.a
+/usr/lib64/libharfbuzz.a

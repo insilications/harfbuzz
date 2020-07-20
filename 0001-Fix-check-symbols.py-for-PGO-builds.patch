@@ -1,0 +1,25 @@
+From ea6b19d3cd23bb97d2409a3b285cc8cd45107ba9 Mon Sep 17 00:00:00 2001
+From: insilications <boboniboni@gmail.com>
+Date: Mon, 20 Jul 2020 17:24:55 -0300
+Subject: [PATCH] Fix check-symbols.py for PGO builds
+
+---
+ src/check-symbols.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/check-symbols.py b/src/check-symbols.py
+index d36b6c4..c366dc0 100755
+--- a/src/check-symbols.py
++++ b/src/check-symbols.py
+@@ -9,7 +9,7 @@ libs = os.getenv ('libs', '.libs')
+ 
+ IGNORED_SYMBOLS = '|'.join(['_fini', '_init', '_fdata', '_ftext', '_fbss',
+ 	'__bss_start', '__bss_start__', '__bss_end__', '_edata', '_end', '_bss_end__',
+-	'__end__', '__gcov_.*', 'llvm_.*', 'flush_fn_list', 'writeout_fn_list'])
++	'__end__', '__gcov_.*', 'llvm_.*', 'flush_fn_list', 'writeout_fn_list', 'mangle_path'])
+ 
+ nm = shutil.which ('nm')
+ if not nm:
+-- 
+2.27.0
+

@@ -1,5 +1,5 @@
 PKG_NAME := harfbuzz
-URL = https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.7.tar.xz
+URL = https://github.com/harfbuzz/harfbuzz.git
 ARCHIVES = 
 
 include ../common/Makefile.common
