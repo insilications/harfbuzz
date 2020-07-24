@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : harfbuzz
 Version  : 2.6.8
-Release  : 3
+Release  : 4
 URL      : file:///insilications/build/clearlinux/packages/harfbuzz/harfbuzz-2.6.8.zip
 Source0  : file:///insilications/build/clearlinux/packages/harfbuzz/harfbuzz-2.6.8.zip
 Summary  : HarfBuzz text shaping library
@@ -108,7 +108,7 @@ unset http_proxy
 unset https_proxy
 unset no_proxy
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1595289281
+export SOURCE_DATE_EPOCH=1595603644
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -167,7 +167,7 @@ unset no_proxy
 VERBOSE=1 V=1 make -j16 check
 
 %install
-export SOURCE_DATE_EPOCH=1595289281
+export SOURCE_DATE_EPOCH=1595603644
 rm -rf %{buildroot}
 %make_install
 
