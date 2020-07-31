@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : harfbuzz
-Version  : 2.6.8
-Release  : 4
-URL      : file:///insilications/build/clearlinux/packages/harfbuzz/harfbuzz-2.6.8.zip
-Source0  : file:///insilications/build/clearlinux/packages/harfbuzz/harfbuzz-2.6.8.zip
+Version  : 2.7.0
+Release  : 5
+URL      : file:///insilications/build/clearlinux/packages/harfbuzz/harfbuzz-2.7.0.zip
+Source0  : file:///insilications/build/clearlinux/packages/harfbuzz/harfbuzz-2.7.0.zip
 Summary  : HarfBuzz text shaping library
 Group    : Development/Tools
 License  : BSD-2-Clause
@@ -17,15 +17,29 @@ Requires: harfbuzz-lib = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-meson
 BuildRequires : docbook-xml
+BuildRequires : findutils
+BuildRequires : freetype-dev32
 BuildRequires : gcc-dev
+BuildRequires : gcc-dev32
+BuildRequires : gcc-libgcc32
+BuildRequires : gcc-libstdc++32
 BuildRequires : glib-dev
+BuildRequires : glibc-dev32
+BuildRequires : glibc-libc32
 BuildRequires : gobject-introspection
 BuildRequires : gobject-introspection-dev
 BuildRequires : graphite-dev
+BuildRequires : graphite-dev32
 BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
 BuildRequires : libxslt-bin
 BuildRequires : pkg-config
+BuildRequires : pkgconfig(32cairo)
+BuildRequires : pkgconfig(32cairo-ft)
+BuildRequires : pkgconfig(32fontconfig)
+BuildRequires : pkgconfig(32glib-2.0)
+BuildRequires : pkgconfig(32gobject-2.0)
+BuildRequires : pkgconfig(32icu-uc)
 BuildRequires : pkgconfig(cairo)
 BuildRequires : pkgconfig(cairo-ft)
 BuildRequires : pkgconfig(fontconfig)
@@ -46,7 +60,8 @@ BuildRequires : util-linux-dev
 %define debug_package %{nil}
 
 %description
-
+This is HarfBuzz, a text shaping library.
+For bug reports, mailing list, and other information please visit:
 
 %package bin
 Summary: bin components for the harfbuzz package.
@@ -78,6 +93,18 @@ Requires: harfbuzz = %{version}-%{release}
 dev components for the harfbuzz package.
 
 
+%package dev32
+Summary: dev32 components for the harfbuzz package.
+Group: Default
+Requires: harfbuzz-lib32 = %{version}-%{release}
+Requires: harfbuzz-bin = %{version}-%{release}
+Requires: harfbuzz-data = %{version}-%{release}
+Requires: harfbuzz-dev = %{version}-%{release}
+
+%description dev32
+dev32 components for the harfbuzz package.
+
+
 %package lib
 Summary: lib components for the harfbuzz package.
 Group: Libraries
@@ -85,6 +112,15 @@ Requires: harfbuzz-data = %{version}-%{release}
 
 %description lib
 lib components for the harfbuzz package.
+
+
+%package lib32
+Summary: lib32 components for the harfbuzz package.
+Group: Default
+Requires: harfbuzz-data = %{version}-%{release}
+
+%description lib32
+lib32 components for the harfbuzz package.
 
 
 %package staticdev
@@ -96,9 +132,21 @@ Requires: harfbuzz-dev = %{version}-%{release}
 staticdev components for the harfbuzz package.
 
 
+%package staticdev32
+Summary: staticdev32 components for the harfbuzz package.
+Group: Default
+Requires: harfbuzz-dev = %{version}-%{release}
+
+%description staticdev32
+staticdev32 components for the harfbuzz package.
+
+
 %prep
-%setup -q -n harfbuzz-2.6.8
-cd %{_builddir}/harfbuzz-2.6.8
+%setup -q -n harfbuzz-2.7.0
+cd %{_builddir}/harfbuzz-2.7.0
+pushd ..
+cp -a harfbuzz-2.7.0 build32
+popd
 
 %build
 ## build_prepend content
@@ -108,7 +156,7 @@ unset http_proxy
 unset https_proxy
 unset no_proxy
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1595603644
+export SOURCE_DATE_EPOCH=1596175848
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -159,20 +207,48 @@ export LDFLAGS="${LDFLAGS_USE}"
 ## make_prepend end
 make  %{?_smp_mflags}
 
+pushd ../build32/
+## build_prepend content
+#find . -type f -name '*.build' -print -exec touch {} \;
+## build_prepend end
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
+%autogen  --enable-shared --enable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection --with-graphite2 --with-gobject  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+## make_prepend content
+#find . -type f -name '*.build' -print -exec touch {} \;
+## make_prepend end
+make  %{?_smp_mflags}
+popd
+
 %check
 export LANG=C.UTF-8
 unset http_proxy
 unset https_proxy
 unset no_proxy
-VERBOSE=1 V=1 make -j16 check
+make VERBOSE=1 V=1 %{?_smp_mflags} check
+cd ../build32;
+make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1595603644
+export SOURCE_DATE_EPOCH=1596175848
 rm -rf %{buildroot}
+pushd ../build32/
+%make_install32
+if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
+then
+pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
+popd
+fi
+popd
 %make_install
 
 %files
 %defattr(-,root,root,-)
+/usr/lib32/girepository-1.0/HarfBuzz-0.0.typelib
 
 %files bin
 %defattr(-,root,root,-)
@@ -234,16 +310,43 @@ rm -rf %{buildroot}
 /usr/lib64/pkgconfig/harfbuzz-subset.pc
 /usr/lib64/pkgconfig/harfbuzz.pc
 
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/cmake/harfbuzz/harfbuzz-config.cmake
+/usr/lib32/libharfbuzz-gobject.so
+/usr/lib32/libharfbuzz-icu.so
+/usr/lib32/libharfbuzz-subset.so
+/usr/lib32/libharfbuzz.so
+/usr/lib32/pkgconfig/32harfbuzz-gobject.pc
+/usr/lib32/pkgconfig/32harfbuzz-icu.pc
+/usr/lib32/pkgconfig/32harfbuzz-subset.pc
+/usr/lib32/pkgconfig/32harfbuzz.pc
+/usr/lib32/pkgconfig/harfbuzz-gobject.pc
+/usr/lib32/pkgconfig/harfbuzz-icu.pc
+/usr/lib32/pkgconfig/harfbuzz-subset.pc
+/usr/lib32/pkgconfig/harfbuzz.pc
+
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libharfbuzz-gobject.so.0
-/usr/lib64/libharfbuzz-gobject.so.0.20608.0
+/usr/lib64/libharfbuzz-gobject.so.0.20700.0
 /usr/lib64/libharfbuzz-icu.so.0
-/usr/lib64/libharfbuzz-icu.so.0.20608.0
+/usr/lib64/libharfbuzz-icu.so.0.20700.0
 /usr/lib64/libharfbuzz-subset.so.0
-/usr/lib64/libharfbuzz-subset.so.0.20608.0
+/usr/lib64/libharfbuzz-subset.so.0.20700.0
 /usr/lib64/libharfbuzz.so.0
-/usr/lib64/libharfbuzz.so.0.20608.0
+/usr/lib64/libharfbuzz.so.0.20700.0
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libharfbuzz-gobject.so.0
+/usr/lib32/libharfbuzz-gobject.so.0.20700.0
+/usr/lib32/libharfbuzz-icu.so.0
+/usr/lib32/libharfbuzz-icu.so.0.20700.0
+/usr/lib32/libharfbuzz-subset.so.0
+/usr/lib32/libharfbuzz-subset.so.0.20700.0
+/usr/lib32/libharfbuzz.so.0
+/usr/lib32/libharfbuzz.so.0.20700.0
 
 %files staticdev
 %defattr(-,root,root,-)
@@ -251,3 +354,10 @@ rm -rf %{buildroot}
 /usr/lib64/libharfbuzz-icu.a
 /usr/lib64/libharfbuzz-subset.a
 /usr/lib64/libharfbuzz.a
+
+%files staticdev32
+%defattr(-,root,root,-)
+/usr/lib32/libharfbuzz-gobject.a
+/usr/lib32/libharfbuzz-icu.a
+/usr/lib32/libharfbuzz-subset.a
+/usr/lib32/libharfbuzz.a
