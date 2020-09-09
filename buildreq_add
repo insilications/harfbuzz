@@ -4,8 +4,13 @@
 #
 buildreq-cmake
 buildreq-meson
+cairo-dev
 docbook-xml
+findutils
+freetype-dev
 freetype-dev32
+freetype-staticdev
+freetype-staticdev32
 gcc-dev
 gcc-dev32
 gcc-libgcc32
@@ -16,7 +21,7 @@ glib-dev
 gobject-introspection
 gobject-introspection-dev
 graphite-dev
-graphite-dev32
+graphite-staticdev
 gtk-doc
 gtk-doc-dev
 libxslt-bin
@@ -24,4 +29,3 @@ pkg-config
 python3-core
 util-linux
 util-linux-dev
-findutils

@@ -1,0 +1,1 @@
+--enable-shared --disable-static --with-icu=yes --with-glib --with-freetype --with-icu --disable-introspection --disable-cairo --without-cairo
