@@ -4,13 +4,14 @@
 #
 Name     : harfbuzz
 Version  : 2.6.7
-Release  : 102
+Release  : 103
 URL      : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.7.tar.xz
 Source0  : https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.7.tar.xz
 Summary  : HarfBuzz text shaping library
 Group    : Development/Tools
 License  : Apache-2.0 MIT OFL-1.1
 Requires: harfbuzz-bin = %{version}-%{release}
+Requires: harfbuzz-data = %{version}-%{release}
 Requires: harfbuzz-lib = %{version}-%{release}
 Requires: harfbuzz-license = %{version}-%{release}
 BuildRequires : buildreq-meson
@@ -34,10 +35,19 @@ This is HarfBuzz, a text shaping library.
 %package bin
 Summary: bin components for the harfbuzz package.
 Group: Binaries
+Requires: harfbuzz-data = %{version}-%{release}
 Requires: harfbuzz-license = %{version}-%{release}
 
 %description bin
 bin components for the harfbuzz package.
+
+
+%package data
+Summary: data components for the harfbuzz package.
+Group: Data
+
+%description data
+data components for the harfbuzz package.
 
 
 %package dev
@@ -45,6 +55,7 @@ Summary: dev components for the harfbuzz package.
 Group: Development
 Requires: harfbuzz-lib = %{version}-%{release}
 Requires: harfbuzz-bin = %{version}-%{release}
+Requires: harfbuzz-data = %{version}-%{release}
 Provides: harfbuzz-devel = %{version}-%{release}
 Requires: harfbuzz = %{version}-%{release}
 
@@ -63,6 +74,7 @@ doc components for the harfbuzz package.
 %package lib
 Summary: lib components for the harfbuzz package.
 Group: Libraries
+Requires: harfbuzz-data = %{version}-%{release}
 Requires: harfbuzz-license = %{version}-%{release}
 
 %description lib
@@ -89,7 +101,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1600300969
+export SOURCE_DATE_EPOCH=1600301388
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -98,7 +110,13 @@ export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-m
 export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-%configure --disable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection --with-graphite2
+%configure --disable-static --with-gobject \
+--enable-introspection \
+--with-cairo \
+--with-freetype \
+--with-glib \
+--with-graphite2 \
+--with-icu
 make  %{?_smp_mflags}
 
 unset PKG_CONFIG_PATH
@@ -108,7 +126,13 @@ export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
 export FFLAGS="$FFLAGS -m64 -march=haswell"
 export FCFLAGS="$FCFLAGS -m64 -march=haswell"
 export LDFLAGS="$LDFLAGS -m64 -march=haswell"
-%configure --disable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection --with-graphite2
+%configure --disable-static --with-gobject \
+--enable-introspection \
+--with-cairo \
+--with-freetype \
+--with-glib \
+--with-graphite2 \
+--with-icu
 make  %{?_smp_mflags}
 popd
 %check
@@ -121,7 +145,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1600300969
+export SOURCE_DATE_EPOCH=1600301388
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/harfbuzz
 cp %{_builddir}/harfbuzz-2.6.7/COPYING %{buildroot}/usr/share/package-licenses/harfbuzz/18c194fb2b96b6a60289a79265e76976ffdb303d
@@ -158,6 +182,11 @@ popd
 /usr/bin/hb-subset
 /usr/bin/hb-view
 
+%files data
+%defattr(-,root,root,-)
+/usr/lib64/girepository-1.0/HarfBuzz-0.0.typelib
+/usr/share/gir-1.0/*.gir
+
 %files dev
 %defattr(-,root,root,-)
 /usr/include/harfbuzz/hb-aat-layout.h
@@ -171,6 +200,9 @@ popd
 /usr/include/harfbuzz/hb-font.h
 /usr/include/harfbuzz/hb-ft.h
 /usr/include/harfbuzz/hb-glib.h
+/usr/include/harfbuzz/hb-gobject-enums.h
+/usr/include/harfbuzz/hb-gobject-structs.h
+/usr/include/harfbuzz/hb-gobject.h
 /usr/include/harfbuzz/hb-graphite2.h
 /usr/include/harfbuzz/hb-icu.h
 /usr/include/harfbuzz/hb-map.h
@@ -195,9 +227,11 @@ popd
 /usr/lib64/cmake/harfbuzz/harfbuzz-config.cmake
 /usr/lib64/haswell/libharfbuzz-subset.so
 /usr/lib64/haswell/libharfbuzz.so
+/usr/lib64/libharfbuzz-gobject.so
 /usr/lib64/libharfbuzz-icu.so
 /usr/lib64/libharfbuzz-subset.so
 /usr/lib64/libharfbuzz.so
+/usr/lib64/pkgconfig/harfbuzz-gobject.pc
 /usr/lib64/pkgconfig/harfbuzz-icu.pc
 /usr/lib64/pkgconfig/harfbuzz-subset.pc
 /usr/lib64/pkgconfig/harfbuzz.pc
@@ -308,6 +342,8 @@ popd
 /usr/lib64/haswell/libharfbuzz-subset.so.0.20600.7
 /usr/lib64/haswell/libharfbuzz.so.0
 /usr/lib64/haswell/libharfbuzz.so.0.20600.7
+/usr/lib64/libharfbuzz-gobject.so.0
+/usr/lib64/libharfbuzz-gobject.so.0.20600.7
 /usr/lib64/libharfbuzz-icu.so.0
 /usr/lib64/libharfbuzz-icu.so.0.20600.7
 /usr/lib64/libharfbuzz-subset.so.0
