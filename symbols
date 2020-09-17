@@ -7,12 +7,15 @@ libharfbuzz-subset.so.0:hb_subset_input_destroy
 libharfbuzz-subset.so.0:hb_subset_input_drop_tables_set
 libharfbuzz-subset.so.0:hb_subset_input_get_desubroutinize
 libharfbuzz-subset.so.0:hb_subset_input_get_drop_hints
+libharfbuzz-subset.so.0:hb_subset_input_get_name_legacy
 libharfbuzz-subset.so.0:hb_subset_input_get_retain_gids
 libharfbuzz-subset.so.0:hb_subset_input_glyph_set
 libharfbuzz-subset.so.0:hb_subset_input_nameid_set
+libharfbuzz-subset.so.0:hb_subset_input_namelangid_set
 libharfbuzz-subset.so.0:hb_subset_input_reference
 libharfbuzz-subset.so.0:hb_subset_input_set_desubroutinize
 libharfbuzz-subset.so.0:hb_subset_input_set_drop_hints
+libharfbuzz-subset.so.0:hb_subset_input_set_name_legacy
 libharfbuzz-subset.so.0:hb_subset_input_set_retain_gids
 libharfbuzz-subset.so.0:hb_subset_input_unicode_set
 libharfbuzz.so.0:hb_aat_layout_feature_type_get_name_id
@@ -209,8 +212,10 @@ libharfbuzz.so.0:hb_ft_font_create
 libharfbuzz.so.0:hb_ft_font_create_referenced
 libharfbuzz.so.0:hb_ft_font_get_face
 libharfbuzz.so.0:hb_ft_font_get_load_flags
+libharfbuzz.so.0:hb_ft_font_lock_face
 libharfbuzz.so.0:hb_ft_font_set_funcs
 libharfbuzz.so.0:hb_ft_font_set_load_flags
+libharfbuzz.so.0:hb_ft_font_unlock_face
 libharfbuzz.so.0:hb_glib_blob_create
 libharfbuzz.so.0:hb_glib_get_unicode_funcs
 libharfbuzz.so.0:hb_glib_script_from_script

@@ -4,6 +4,4 @@
 #
 gobject-introspection-dev
 gobject-introspection
-freetype-dev32
 graphite-dev
-graphite-dev32
