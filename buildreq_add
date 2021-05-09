@@ -9,8 +9,8 @@ docbook-xml
 findutils
 freetype-dev
 freetype-dev32
-#freetype-staticdev
-#freetype-staticdev32
+freetype-staticdev
+freetype-staticdev32
 gcc-dev
 gcc-dev32
 gcc-libgcc32

@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : harfbuzz
 Version  : 2.8.1
-Release  : 7
+Release  : 401
 URL      : file:///aot/build/clearlinux/packages/harfbuzz/harfbuzz-2.8.1.tar.gz
 Source0  : file:///aot/build/clearlinux/packages/harfbuzz/harfbuzz-2.8.1.tar.gz
 Summary  : HarfBuzz text shaping library
@@ -21,6 +21,8 @@ BuildRequires : docbook-xml
 BuildRequires : findutils
 BuildRequires : freetype-dev
 BuildRequires : freetype-dev32
+BuildRequires : freetype-staticdev
+BuildRequires : freetype-staticdev32
 BuildRequires : gcc
 BuildRequires : gcc-abi
 BuildRequires : gcc-dev
@@ -167,7 +169,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1620562885
+export SOURCE_DATE_EPOCH=1620563831
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
