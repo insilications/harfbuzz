@@ -1,10 +1,10 @@
--Dglib=disabled
--Dgobject=disabled
--Dcairo=disabled
+-Dglib=enabled
+-Dgobject=enabled
+-Dcairo=enabled
 -Dicu=enabled
 -Dgraphite=enabled
 -Dfreetype=enabled
--Dintrospection=disabled
+-Dintrospection=enabled
 -Ddocs=disabled
 -Ddefault_library=both
 -Dtests=disabled

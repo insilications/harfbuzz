@@ -1,1 +1,11 @@
---enable-shared --enable-static --with-icu=yes --with-glib --with-freetype --with-cairo --with-icu --enable-introspection --with-graphite2 --with-gobject
+-Dglib=enabled
+-Dgobject=enabled
+-Dcairo=enabled
+-Dicu=enabled
+-Dgraphite=enabled
+-Dfreetype=enabled
+-Dintrospection=enabled
+-Ddocs=disabled
+-Ddefault_library=both
+-Dtests=enabled
+-Dbenchmark=disabled

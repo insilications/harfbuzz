@@ -1,0 +1,1 @@
+sd "/usr/lib64/libgraphite2.so" "/usr/lib32/libgraphite2.so" $(fd -uu --glob *.ninja)
