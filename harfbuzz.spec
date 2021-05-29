@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : harfbuzz
 Version  : 2.8.1
-Release  : 406
+Release  : 407
 URL      : file:///aot/build/clearlinux/packages/harfbuzz/harfbuzz-v2.8.1.tar.gz
 Source0  : file:///aot/build/clearlinux/packages/harfbuzz/harfbuzz-v2.8.1.tar.gz
 Summary  : HarfBuzz text shaping library
@@ -169,7 +169,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1622254210
+export SOURCE_DATE_EPOCH=1622256181
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -303,7 +303,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 ## install_append content
 #rm -f %{buildroot}/usr/include/sndfile.hh
 install -dm 0755 %{buildroot}/usr/lib64/haswell/ || :
-cp --archive %{buildroot}/usr/lib64/lib*.so* %{buildroot}/usr/lib64/haswell/ || :
+cp --archive %{buildroot}/usr/lib64/libharfbuzz*.so* %{buildroot}/usr/lib64/haswell/ || :
 ## install_append end
 
 %files
