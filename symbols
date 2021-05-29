@@ -47,6 +47,7 @@ libharfbuzz-subset.so.0:hb_subset_input_drop_tables_set
 libharfbuzz-subset.so.0:hb_subset_input_get_desubroutinize
 libharfbuzz-subset.so.0:hb_subset_input_get_drop_hints
 libharfbuzz-subset.so.0:hb_subset_input_get_name_legacy
+libharfbuzz-subset.so.0:hb_subset_input_get_overlaps_flag
 libharfbuzz-subset.so.0:hb_subset_input_get_retain_gids
 libharfbuzz-subset.so.0:hb_subset_input_glyph_set
 libharfbuzz-subset.so.0:hb_subset_input_nameid_set
@@ -55,6 +56,7 @@ libharfbuzz-subset.so.0:hb_subset_input_reference
 libharfbuzz-subset.so.0:hb_subset_input_set_desubroutinize
 libharfbuzz-subset.so.0:hb_subset_input_set_drop_hints
 libharfbuzz-subset.so.0:hb_subset_input_set_name_legacy
+libharfbuzz-subset.so.0:hb_subset_input_set_overlaps_flag
 libharfbuzz-subset.so.0:hb_subset_input_set_retain_gids
 libharfbuzz-subset.so.0:hb_subset_input_unicode_set
 libharfbuzz.so.0:hb_aat_layout_feature_type_get_name_id
@@ -88,6 +90,7 @@ libharfbuzz.so.0:hb_buffer_append
 libharfbuzz.so.0:hb_buffer_clear_contents
 libharfbuzz.so.0:hb_buffer_create
 libharfbuzz.so.0:hb_buffer_deserialize_glyphs
+libharfbuzz.so.0:hb_buffer_deserialize_unicode
 libharfbuzz.so.0:hb_buffer_destroy
 libharfbuzz.so.0:hb_buffer_diff
 libharfbuzz.so.0:hb_buffer_get_cluster_level
@@ -106,6 +109,7 @@ libharfbuzz.so.0:hb_buffer_get_segment_properties
 libharfbuzz.so.0:hb_buffer_get_unicode_funcs
 libharfbuzz.so.0:hb_buffer_get_user_data
 libharfbuzz.so.0:hb_buffer_guess_segment_properties
+libharfbuzz.so.0:hb_buffer_has_positions
 libharfbuzz.so.0:hb_buffer_normalize_glyphs
 libharfbuzz.so.0:hb_buffer_pre_allocate
 libharfbuzz.so.0:hb_buffer_reference
@@ -113,10 +117,12 @@ libharfbuzz.so.0:hb_buffer_reset
 libharfbuzz.so.0:hb_buffer_reverse
 libharfbuzz.so.0:hb_buffer_reverse_clusters
 libharfbuzz.so.0:hb_buffer_reverse_range
+libharfbuzz.so.0:hb_buffer_serialize
 libharfbuzz.so.0:hb_buffer_serialize_format_from_string
 libharfbuzz.so.0:hb_buffer_serialize_format_to_string
 libharfbuzz.so.0:hb_buffer_serialize_glyphs
 libharfbuzz.so.0:hb_buffer_serialize_list_formats
+libharfbuzz.so.0:hb_buffer_serialize_unicode
 libharfbuzz.so.0:hb_buffer_set_cluster_level
 libharfbuzz.so.0:hb_buffer_set_content_type
 libharfbuzz.so.0:hb_buffer_set_direction
