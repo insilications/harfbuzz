@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : harfbuzz
 Version  : 2.8.2
-Release  : 410
+Release  : 411
 URL      : file:///aot/build/clearlinux/packages/harfbuzz/harfbuzz-v2.8.2.tar.gz
 Source0  : file:///aot/build/clearlinux/packages/harfbuzz/harfbuzz-v2.8.2.tar.gz
 Summary  : HarfBuzz text shaping library
@@ -225,6 +225,7 @@ BuildRequires : zstd-staticdev
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
+Patch1: 0001-Fix-check-symbols.py-for-PGO-builds.patch
 
 %description
 This is HarfBuzz, a text shaping library.
@@ -311,6 +312,7 @@ staticdev32 components for the harfbuzz package.
 %prep
 %setup -q -n harfbuzz
 cd %{_builddir}/harfbuzz
+%patch1 -p1
 pushd %{_builddir}
 cp -a %{_builddir}/harfbuzz build32
 popd
@@ -324,7 +326,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1628987078
+export SOURCE_DATE_EPOCH=1628987928
 ## build_prepend content
 #find . -type f -name '*.build' -print -exec touch {} \;
 ## build_prepend end
