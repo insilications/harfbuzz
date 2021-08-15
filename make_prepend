@@ -1,1 +1,8 @@
-#find . -type f -name '*.build' -print -exec touch {} \;
+sd "/usr/lib64/libz.so" "/usr/lib64/libz.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+sd "/usr/lib64/libbz2.so" "/usr/lib64/libbz2.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+sd "/usr/lib64/libpng16.so" "/usr/lib64/libpng16.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+sd "/usr/lib64/libpng.so" "/usr/lib64/libpng.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+sd "/usr/lib64/libfreetype.so" "/usr/lib64/haswell/libm.so.6 /usr/lib64/libfreetype.a /usr/lib64/libpng16.a /usr/lib64/libbrotlidec-static.a /usr/lib64/libbrotlicommon-static.a /usr/lib64/libbz2.a /usr/lib64/libz.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+sd "/usr/lib64/libgraphite2.so" "/usr/lib64/libgraphite2.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+sd "/usr/lib64/libglib-2.0.so" "/usr/lib64/libglib-2.0.a /usr/lib64/libpcre.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+sd "/usr/lib64/libgobject-2.0.so" "/usr/lib64/libgobject-2.0.a /usr/lib64/libpcre.a /usr/lib64/libffi.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
