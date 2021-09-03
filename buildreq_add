@@ -2,10 +2,8 @@
 # This file contains extra pkgconfig build requirements that don't get picked up but are
 # desirable. One name per line, no whitespace.
 #
-brotli-dev
-brotli-dev32
-brotli-staticdev
-brotli-staticdev32
+automake
+automake-dev
 buildreq-cmake
 buildreq-configure
 buildreq-meson
@@ -13,16 +11,20 @@ bzip2-dev
 bzip2-dev32
 bzip2-staticdev
 cairo-dev
+cairo-dev32
 cairo-staticdev
 dbus
-dbus-broker
 dbus-dev
 dbus-glib
 dbus-glib-dev
 dbus-python
+docbook-utils
 docbook-xml
 doxygen
 findutils
+fontconfig
+fontconfig-data
+fontconfig-dev
 fonts-clear
 freetype-dev
 freetype-dev32
@@ -31,25 +33,27 @@ gcc-dev
 gcc-dev32
 gcc-libgcc32
 gcc-libstdc++32
+gettext
+gettext-bin
 glibc-dev32
 glibc-libc32
 glib-dev
 glib-staticdev
 gobject-introspection
 gobject-introspection-dev
+gperf
 graphite-dev
 graphite-dev32
 graphite-staticdev
 gtk-doc
 gtk-doc-dev
-harfbuzz-dev
-harfbuzz-dev32
-harfbuzz-staticdev
 libffi-dev
 libffi-staticdev
 libpng-dev
 libpng-dev32
 libpng-staticdev
+libtool
+libtool-dev
 libX11-data
 libX11-dev
 libX11-lib
@@ -71,6 +75,7 @@ libXft-lib
 libXi-dev
 libXi-lib
 libxml2-dev
+libxml2-dev32
 libxml2-staticdev
 libXrender-dev
 libXrender-lib
@@ -86,6 +91,8 @@ libxvid-dev
 libxvid-staticdev
 libXxf86vm-dev
 libXxf86vm-lib
+m4
+ninja
 pcre2-dev
 pcre2-staticdev
 pcre-dev
@@ -175,6 +182,7 @@ xwd
 xwininfo
 xz
 xz-dev
+xz-dev32
 xz-staticdev
 yaml-cpp
 yaml-cpp-dev
@@ -184,4 +192,5 @@ zlib-dev
 zlib-dev32
 zlib-staticdev
 zstd-dev
+zstd-dev32
 zstd-staticdev
