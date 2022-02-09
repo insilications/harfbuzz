@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : harfbuzz
 Version  : 3.3.2
-Release  : 413
+Release  : 415
 URL      : file:///aot/build/clearlinux/packages/harfbuzz/harfbuzz-v3.3.2.tar.gz
 Source0  : file:///aot/build/clearlinux/packages/harfbuzz/harfbuzz-v3.3.2.tar.gz
 Summary  : HarfBuzz text shaping library
@@ -239,7 +239,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1644396758
+export SOURCE_DATE_EPOCH=1644402708
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -315,9 +315,6 @@ export QT_FONT_DPI=88
 export GTK_USE_PORTAL=1
 export DESKTOP_SESSION=plasma
 ## altflags_pgo end
-if [ ! -f statuspgo ]; then
-
-echo PGO Phase 1
 export CFLAGS="${CFLAGS_GENERATE}"
 export CXXFLAGS="${CXXFLAGS_GENERATE}"
 export FFLAGS="${FFLAGS_GENERATE}"
@@ -325,6 +322,8 @@ export FCFLAGS="${FCFLAGS_GENERATE}"
 export LDFLAGS="${LDFLAGS_GENERATE}"
 export ASMFLAGS="${ASMFLAGS_GENERATE}"
 export LIBS="${LIBS_GENERATE}"
+
+echo PGO Phase 1
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" LIBS="$LIBS" meson --libdir=lib64 --sysconfdir=/usr/share --prefix=/usr --buildtype=plain -Ddefault_library=both  -Dglib=enabled \
 -Dgobject=enabled \
 -Dcairo=enabled \
@@ -338,24 +337,18 @@ CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" LIBS="$LIBS" meson --li
 -Dtests=enabled \
 -Dbenchmark=disabled builddir
 ## make_prepend64 content
-sd "/usr/lib64/libz\.so" "/usr/lib64/libz.a" $(fd -uu --glob *.ninja)
 sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libz\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libz.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
 sd '(LINK_FLAGS.+)(\s/usr/lib64/libz\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libz.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-sd "/usr/lib64/libbz2\.so" "/usr/lib64/libbz2.a" $(fd -uu --glob *.ninja)
 sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libbz2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libbz2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
 sd '(LINK_FLAGS.+)(\s/usr/lib64/libbz2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libbz2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-sd "/usr/lib64/libpng16\.so" "/usr/lib64/libpng16.a" $(fd -uu --glob *.ninja)
 sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libpng16\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng16.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
 sd '(LINK_FLAGS.+)(\s/usr/lib64/libpng16\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng16.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-sd "/usr/lib64/libpng\.so" "/usr/lib64/libpng.a" $(fd -uu --glob *.ninja)
 sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libpng\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
 sd '(LINK_FLAGS.+)(\s/usr/lib64/libpng\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-sd "/usr/lib64/libgraphite2\.so" "/usr/lib64/libgraphite2.a" $(fd -uu --glob *.ninja)
 sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libgraphite2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libgraphite2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
 sd '(LINK_FLAGS.+)(\s/usr/lib64/libgraphite2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libgraphite2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
 ## make_prepend64 end
 ninja --verbose %{?_smp_mflags} -C builddir
-
 
 ## profile_payload start
 unset LD_LIBRARY_PATH
@@ -364,50 +357,6 @@ meson test --verbose --num-processes 1 -C builddir || :
 export LD_LIBRARY_PATH="/usr/local/nvidia/lib64:/usr/local/nvidia/lib64/gbm:/usr/local/nvidia/lib64/vdpau:/usr/local/nvidia/lib64/xorg/modules/drivers:/usr/local/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/local/nvidia/lib32:/usr/local/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
 export LIBRARY_PATH="/usr/local/nvidia/lib64:/usr/local/nvidia/lib64/gbm:/usr/local/nvidia/lib64/vdpau:/usr/local/nvidia/lib64/xorg/modules/drivers:/usr/local/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/local/nvidia/lib32:/usr/local/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
 ## profile_payload end
-find builddir/ -type f,l -not -name '*.gcno' -not -name 'statuspgo*' -delete -print  || :
-echo USED > statuspgo
-fi
-if [ -f statuspgo ]; then
-echo PGO Phase 2
-export CFLAGS="${CFLAGS_USE}"
-export CXXFLAGS="${CXXFLAGS_USE}"
-export FFLAGS="${FFLAGS_USE}"
-export FCFLAGS="${FCFLAGS_USE}"
-export LDFLAGS="${LDFLAGS_USE}"
-export ASMFLAGS="${ASMFLAGS_USE}"
-export LIBS="${LIBS_USE}"
-CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" LIBS="$LIBS" meson --libdir=lib64 --sysconfdir=/usr/share --prefix=/usr --buildtype=plain -Ddefault_library=both -Dglib=enabled \
--Dgobject=enabled \
--Dcairo=enabled \
--Dicu=enabled \
--Dgraphite=enabled \
--Dgraphite2=enabled \
--Dfreetype=enabled \
--Dintrospection=enabled \
--Ddocs=disabled \
--Ddefault_library=both \
--Dtests=disabled \
--Dbenchmark=disabled  builddir
-## make_prepend64 content
-sd "/usr/lib64/libz\.so" "/usr/lib64/libz.a" $(fd -uu --glob *.ninja)
-sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libz\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libz.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-sd '(LINK_FLAGS.+)(\s/usr/lib64/libz\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libz.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-sd "/usr/lib64/libbz2\.so" "/usr/lib64/libbz2.a" $(fd -uu --glob *.ninja)
-sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libbz2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libbz2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-sd '(LINK_FLAGS.+)(\s/usr/lib64/libbz2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libbz2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-sd "/usr/lib64/libpng16\.so" "/usr/lib64/libpng16.a" $(fd -uu --glob *.ninja)
-sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libpng16\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng16.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-sd '(LINK_FLAGS.+)(\s/usr/lib64/libpng16\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng16.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-sd "/usr/lib64/libpng\.so" "/usr/lib64/libpng.a" $(fd -uu --glob *.ninja)
-sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libpng\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-sd '(LINK_FLAGS.+)(\s/usr/lib64/libpng\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-sd "/usr/lib64/libgraphite2\.so" "/usr/lib64/libgraphite2.a" $(fd -uu --glob *.ninja)
-sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libgraphite2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libgraphite2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-sd '(LINK_FLAGS.+)(\s/usr/lib64/libgraphite2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libgraphite2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
-## make_prepend64 end
-ninja --verbose %{?_smp_mflags} -C builddir
-
-fi
 pushd ../build32/
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
