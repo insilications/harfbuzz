@@ -1,8 +1,29 @@
-sd "/usr/lib64/libz.so" "/usr/lib64/libz.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libbz2.so" "/usr/lib64/libbz2.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libpng16.so" "/usr/lib64/libpng16.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libpng.so" "/usr/lib64/libpng.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libfreetype.so" "/usr/lib64/haswell/libm.so.6 /usr/lib64/libfreetype.a /usr/lib64/libpng16.a /usr/lib64/libbrotlidec-static.a /usr/lib64/libbrotlicommon-static.a /usr/lib64/libbz2.a /usr/lib64/libz.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libgraphite2.so" "/usr/lib64/libgraphite2.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libglib-2.0.so" "/usr/lib64/libglib-2.0.a /usr/lib64/libpcre.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libgobject-2.0.so" "/usr/lib64/libgobject-2.0.a /usr/lib64/libpcre.a /usr/lib64/libffi.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+#! sd "/usr/lib64/libz.so" "/usr/lib64/libz.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+#! sd "/usr/lib64/libbz2.so" "/usr/lib64/libbz2.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+#! sd "/usr/lib64/libpng16.so" "/usr/lib64/libpng16.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+#! sd "/usr/lib64/libpng.so" "/usr/lib64/libpng.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+#! sd "/usr/lib64/libfreetype.so" "/usr/lib64/haswell/libm.so.6 /usr/lib64/libfreetype.a /usr/lib64/libpng16.a /usr/lib64/libbrotlidec-static.a /usr/lib64/libbrotlicommon-static.a /usr/lib64/libbz2.a /usr/lib64/libz.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+#! sd "/usr/lib64/libgraphite2.so" "/usr/lib64/libgraphite2.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+#! sd "/usr/lib64/libglib-2.0.so" "/usr/lib64/libglib-2.0.a /usr/lib64/libpcre.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+#! sd "/usr/lib64/libgobject-2.0.so" "/usr/lib64/libgobject-2.0.a /usr/lib64/libpcre.a /usr/lib64/libffi.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
+#!
+sd "/usr/lib64/libz\.so" "/usr/lib64/libz.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libz\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libz.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libz\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libz.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+#!
+sd "/usr/lib64/libbz2\.so" "/usr/lib64/libbz2.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libbz2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libbz2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libbz2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libbz2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+#!
+sd "/usr/lib64/libpng16\.so" "/usr/lib64/libpng16.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libpng16\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng16.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libpng16\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng16.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+#!
+sd "/usr/lib64/libpng\.so" "/usr/lib64/libpng.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libpng\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libpng\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+#!
+sd "/usr/lib64/libgraphite2\.so" "/usr/lib64/libgraphite2.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libgraphite2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libgraphite2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libgraphite2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libgraphite2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+#!

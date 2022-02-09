@@ -4,20 +4,15 @@
 #
 %define keepstatic 1
 Name     : harfbuzz
-Version  : 2.8.2
-Release  : 411
-URL      : file:///aot/build/clearlinux/packages/harfbuzz/harfbuzz-v2.8.2.tar.gz
-Source0  : file:///aot/build/clearlinux/packages/harfbuzz/harfbuzz-v2.8.2.tar.gz
+Version  : 3.3.2
+Release  : 413
+URL      : file:///aot/build/clearlinux/packages/harfbuzz/harfbuzz-v3.3.2.tar.gz
+Source0  : file:///aot/build/clearlinux/packages/harfbuzz/harfbuzz-v3.3.2.tar.gz
 Summary  : HarfBuzz text shaping library
 Group    : Development/Tools
 License  : BSD-2-Clause
-Requires: harfbuzz-bin = %{version}-%{release}
-Requires: harfbuzz-data = %{version}-%{release}
-Requires: harfbuzz-lib = %{version}-%{release}
-BuildRequires : brotli-dev
-BuildRequires : brotli-dev32
-BuildRequires : brotli-staticdev
-BuildRequires : brotli-staticdev32
+BuildRequires : automake
+BuildRequires : automake-dev
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-configure
 BuildRequires : buildreq-meson
@@ -25,22 +20,22 @@ BuildRequires : bzip2-dev
 BuildRequires : bzip2-dev32
 BuildRequires : bzip2-staticdev
 BuildRequires : cairo-dev
-BuildRequires : cairo-staticdev
 BuildRequires : dbus
-BuildRequires : dbus-broker
 BuildRequires : dbus-dev
 BuildRequires : dbus-glib
 BuildRequires : dbus-glib-dev
 BuildRequires : dbus-python
+BuildRequires : docbook-utils
 BuildRequires : docbook-xml
 BuildRequires : doxygen
 BuildRequires : findutils
+BuildRequires : fontconfig
+BuildRequires : fontconfig-data
+BuildRequires : fontconfig-dev
 BuildRequires : fonts-clear
 BuildRequires : freetype-dev
 BuildRequires : freetype-dev32
-BuildRequires : freetype-staticdev
 BuildRequires : gcc
-BuildRequires : gcc-abi
 BuildRequires : gcc-dev
 BuildRequires : gcc-dev32
 BuildRequires : gcc-doc
@@ -49,19 +44,20 @@ BuildRequires : gcc-libs-math
 BuildRequires : gcc-libstdc++32
 BuildRequires : gcc-libubsan
 BuildRequires : gcc-locale
+BuildRequires : gettext
+BuildRequires : gettext-bin
 BuildRequires : glib-dev
 BuildRequires : glib-staticdev
 BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
 BuildRequires : gobject-introspection
 BuildRequires : gobject-introspection-dev
+BuildRequires : gperf
 BuildRequires : graphite-dev
+BuildRequires : graphite-dev32
 BuildRequires : graphite-staticdev
 BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
-BuildRequires : harfbuzz-dev
-BuildRequires : harfbuzz-dev32
-BuildRequires : harfbuzz-staticdev
 BuildRequires : libX11-data
 BuildRequires : libX11-dev
 BuildRequires : libX11-lib
@@ -96,15 +92,17 @@ BuildRequires : libpng-dev
 BuildRequires : libpng-dev32
 BuildRequires : libpng-staticdev
 BuildRequires : libstdc++
+BuildRequires : libtool
+BuildRequires : libtool-dev
 BuildRequires : libxcb-dev
 BuildRequires : libxcb-lib
 BuildRequires : libxml2-dev
+BuildRequires : libxml2-dev32
 BuildRequires : libxml2-staticdev
 BuildRequires : libxslt-bin
 BuildRequires : libxslt-dev
-BuildRequires : libxslt-staticdev
-BuildRequires : libxvid-dev
-BuildRequires : libxvid-staticdev
+BuildRequires : m4
+BuildRequires : ninja
 BuildRequires : pcre-dev
 BuildRequires : pcre-staticdev
 BuildRequires : pcre2-dev
@@ -158,13 +156,9 @@ BuildRequires : pkgconfig(gobject-2.0)
 BuildRequires : pkgconfig(graphite2)
 BuildRequires : pkgconfig(gthread-2.0)
 BuildRequires : pkgconfig(icu-uc)
-BuildRequires : pulseaudio
-BuildRequires : pulseaudio-dev
-BuildRequires : pyelftools
 BuildRequires : python3-core
 BuildRequires : python3-dev
 BuildRequires : python3-staticdev
-BuildRequires : requests
 BuildRequires : util-linux
 BuildRequires : util-linux-dev
 BuildRequires : xdg-dbus-proxy
@@ -212,6 +206,7 @@ BuildRequires : xwd
 BuildRequires : xwininfo
 BuildRequires : xz
 BuildRequires : xz-dev
+BuildRequires : xz-dev32
 BuildRequires : xz-staticdev
 BuildRequires : yaml-cpp
 BuildRequires : yaml-cpp-dev
@@ -221,176 +216,74 @@ BuildRequires : zlib-dev
 BuildRequires : zlib-dev32
 BuildRequires : zlib-staticdev
 BuildRequires : zstd-dev
+BuildRequires : zstd-dev32
 BuildRequires : zstd-staticdev
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
-Patch1: 0001-Fix-check-symbols.py-for-PGO-builds.patch
 
 %description
 This is HarfBuzz, a text shaping library.
 For bug reports, mailing list, and other information please visit:
 
-%package bin
-Summary: bin components for the harfbuzz package.
-Group: Binaries
-Requires: harfbuzz-data = %{version}-%{release}
-
-%description bin
-bin components for the harfbuzz package.
-
-
-%package data
-Summary: data components for the harfbuzz package.
-Group: Data
-
-%description data
-data components for the harfbuzz package.
-
-
-%package dev
-Summary: dev components for the harfbuzz package.
-Group: Development
-Requires: harfbuzz-lib = %{version}-%{release}
-Requires: harfbuzz-bin = %{version}-%{release}
-Requires: harfbuzz-data = %{version}-%{release}
-Provides: harfbuzz-devel = %{version}-%{release}
-Requires: harfbuzz = %{version}-%{release}
-
-%description dev
-dev components for the harfbuzz package.
-
-
-%package dev32
-Summary: dev32 components for the harfbuzz package.
-Group: Default
-Requires: harfbuzz-lib32 = %{version}-%{release}
-Requires: harfbuzz-bin = %{version}-%{release}
-Requires: harfbuzz-data = %{version}-%{release}
-Requires: harfbuzz-dev = %{version}-%{release}
-
-%description dev32
-dev32 components for the harfbuzz package.
-
-
-%package lib
-Summary: lib components for the harfbuzz package.
-Group: Libraries
-Requires: harfbuzz-data = %{version}-%{release}
-
-%description lib
-lib components for the harfbuzz package.
-
-
-%package lib32
-Summary: lib32 components for the harfbuzz package.
-Group: Default
-Requires: harfbuzz-data = %{version}-%{release}
-
-%description lib32
-lib32 components for the harfbuzz package.
-
-
-%package staticdev
-Summary: staticdev components for the harfbuzz package.
-Group: Default
-Requires: harfbuzz-dev = %{version}-%{release}
-
-%description staticdev
-staticdev components for the harfbuzz package.
-
-
-%package staticdev32
-Summary: staticdev32 components for the harfbuzz package.
-Group: Default
-Requires: harfbuzz-dev32 = %{version}-%{release}
-
-%description staticdev32
-staticdev32 components for the harfbuzz package.
-
-
 %prep
 %setup -q -n harfbuzz
 cd %{_builddir}/harfbuzz
-%patch1 -p1
 pushd %{_builddir}
 cp -a %{_builddir}/harfbuzz build32
 popd
 
 %build
-## build_prepend content
-#find . -type f -name '*.build' -print -exec touch {} \;
-## build_prepend end
 unset http_proxy
 unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1628987928
-## build_prepend content
-#find . -type f -name '*.build' -print -exec touch {} \;
-## build_prepend end
+export SOURCE_DATE_EPOCH=1644396758
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 ## altflags_pgo content
 ## pgo generate
-export PGO_GEN="-fprofile-generate=/var/tmp/pgo -fprofile-dir=/var/tmp/pgo -fprofile-abs-path -fprofile-update=prefer-atomic -fprofile-arcs -ftest-coverage --coverage -fprofile-partial-training"
-export CFLAGS_GENERATE="-Ofast -Wl,--as-needed --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mtls-dialect=gnu2 -fno-math-errno -fno-trapping-math -Wp,-D_REENTRANT -pipe -ffat-lto-objects -flto=16 -fPIC -fomit-frame-pointer -Wl,--build-id=sha1 -fdevirtualize-at-ltrans -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -Wl,-sort-common -fasynchronous-unwind-tables -static-libstdc++ -static-libgcc  -Wl,--enable-new-dtags -lgcov $PGO_GEN"
-export FCFLAGS_GENERATE="-Ofast -Wl,--as-needed --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mtls-dialect=gnu2 -fno-math-errno -fno-trapping-math -Wp,-D_REENTRANT -pipe -ffat-lto-objects -flto=16 -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc -Wl,--build-id=sha1 -fdevirtualize-at-ltrans -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -Wl,-sort-common -fasynchronous-unwind-tables  -Wl,--enable-new-dtags -lgcov $PGO_GEN"
-export FFLAGS_GENERATE="-Ofast -Wl,--as-needed --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mtls-dialect=gnu2 -fno-math-errno -fno-trapping-math -Wp,-D_REENTRANT -pipe -ffat-lto-objects -flto=16 -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc -Wl,--build-id=sha1 -fdevirtualize-at-ltrans -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -Wl,-sort-common -fasynchronous-unwind-tables  -Wl,--enable-new-dtags -lgcov $PGO_GEN"
-export CXXFLAGS_GENERATE="-Ofast -Wl,--as-needed --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mtls-dialect=gnu2 -fno-math-errno -fno-trapping-math -fvisibility-inlines-hidden -Wp,-D_REENTRANT -pipe -ffat-lto-objects -flto=16 -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc -Wl,--build-id=sha1 -fdevirtualize-at-ltrans -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -Wl,-sort-common -fasynchronous-unwind-tables  -Wl,--enable-new-dtags -lgcov $PGO_GEN"
-export LDFLAGS_GENERATE="-Ofast -Wl,--as-needed --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mtls-dialect=gnu2 -fno-math-errno -fno-trapping-math -Wp,-D_REENTRANT -pipe -ffat-lto-objects -flto=16 -fPIC -fomit-frame-pointer -Wl,--build-id=sha1 -fdevirtualize-at-ltrans -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -Wl,-sort-common -fasynchronous-unwind-tables -Wl,--enable-new-dtags -static-libstdc++ -static-libgcc -lgcov $PGO_GEN"
+unset ASFLAGS
+export PGO_GEN="-Wno-inline -fprofile-generate=/var/tmp/pgo -fprofile-dir=/var/tmp/pgo -fprofile-abs-path -fprofile-update=atomic -fprofile-arcs -ftest-coverage -fprofile-partial-training -fprofile-correction -freorder-functions --coverage -lgcov"
+export CFLAGS_GENERATE="-DNDEBUG -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc $PGO_GEN"
+export ASMFLAGS_GENERATE="-DNDEBUG -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc $PGO_GEN"
+export FCFLAGS_GENERATE="-DNDEBUG -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc $PGO_GEN"
+export FFLAGS_GENERATE="-DNDEBUG -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc $PGO_GEN"
+export CXXFLAGS_GENERATE="-DNDEBUG -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -fvisibility-inlines-hidden -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc $PGO_GEN"
+export LDFLAGS_GENERATE="-DNDEBUG -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc $PGO_GEN"
+export LIBS_GENERATE="-lgcov"
 ## pgo use
-## -fno-tree-vectorize: disable -ftree-vectorize thus disable -ftree-loop-vectorize and -ftree-slp-vectorize
-## -Ofast -ffast-math
-## -funroll-loops maybe dangerous
-## -Wl,-z,max-page-size=0x1000
-## -pthread -lpthread
-## -Wl,-Bsymbolic-functions
-export PGO_USE="-fprofile-use=/var/tmp/pgo -fprofile-dir=/var/tmp/pgo -fprofile-abs-path -fprofile-correction -fprofile-partial-training"
-export CFLAGS_USE="-g3 -ggdb -Ofast --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer  -static-libstdc++ -static-libgcc $PGO_USE"
-export FCFLAGS_USE="-g3 -ggdb -Ofast --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer  -static-libstdc++ -static-libgcc $PGO_USE"
-export FFLAGS_USE="-g3 -ggdb -Ofast --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer  -static-libstdc++ -static-libgcc $PGO_USE"
-export CXXFLAGS_USE="-g3 -ggdb -Ofast --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -fvisibility-inlines-hidden -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer  -static-libstdc++ -static-libgcc $PGO_USE"
-export LDFLAGS_USE="-g3 -ggdb -Ofast --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc $PGO_USE"
-#
+export PGO_USE="-Wno-inline -Wmissing-profile -Wcoverage-mismatch -fprofile-use=/var/tmp/pgo -fprofile-dir=/var/tmp/pgo -fprofile-abs-path -fprofile-update=atomic -fprofile-partial-training -fprofile-correction -freorder-functions"
+export CFLAGS_USE="-DNDEBUG -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc $PGO_USE"
+export ASMFLAGS_USE="-DNDEBUG -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc $PGO_USE"
+export FCFLAGS_USE="-DNDEBUG -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc $PGO_USE"
+export FFLAGS_USE="-DNDEBUG -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc $PGO_USE"
+export CXXFLAGS_USE="-DNDEBUG -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -fvisibility-inlines-hidden -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc $PGO_USE"
+export LDFLAGS_USE="-DNDEBUG -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc $PGO_USE"
 export AR=/usr/bin/gcc-ar
 export RANLIB=/usr/bin/gcc-ranlib
 export NM=/usr/bin/gcc-nm
-#
 export MAKEFLAGS=%{?_smp_mflags}
-#
 %global _lto_cflags 1
-#global _lto_cflags %{nil}
 %global _disable_maintainer_mode 1
-#%global _disable_maintainer_mode %{nil}
-#
 export CCACHE_DISABLE=true
 export CCACHE_NOHASHDIR=true
 export CCACHE_CPP2=true
 export CCACHE_SLOPPINESS=pch_defines,time_macros,locale,file_stat_matches,file_stat_matches_ctime,include_file_ctime,include_file_mtime,modules,system_headers,clang_index_store,file_macro
-#export CCACHE_SLOPPINESS=modules,include_file_mtime,include_file_ctime,time_macros,pch_defines,file_stat_matches,clang_index_store,system_headers,locale
-#export CCACHE_SLOPPINESS=pch_defines,time_macros,locale,clang_index_store,file_macro
 export CCACHE_DIR=/var/tmp/ccache
 export CCACHE_BASEDIR=/builddir/build/BUILD
-#export CCACHE_LOGFILE=/var/tmp/ccache/cache.debug
-#export CCACHE_DEBUG=true
-#export CCACHE_NODIRECT=true
-#
-export LD_LIBRARY_PATH="/usr/nvidia/lib64:/usr/nvidia/lib64/vdpau:/usr/nvidia/lib64/xorg/modules/drivers:/usr/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64/chromium:/usr/lib64:/usr/lib64/pulseaudio:/usr/lib64/alsa-lib:/usr/lib64/gstreamer-1.0:/usr/lib64/pipewire-0.3:/usr/lib64/spa-0.2:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/nvidia/lib32:/usr/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
-#
-export LIBRARY_PATH="/usr/nvidia/lib64:/usr/nvidia/lib64/vdpau:/usr/nvidia/lib64/xorg/modules/drivers:/usr/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64/chromium:/usr/lib64:/usr/lib64/pulseaudio:/usr/lib64/alsa-lib:/usr/lib64/gstreamer-1.0:/usr/lib64/pipewire-0.3:/usr/lib64/spa-0.2:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/nvidia/lib32:/usr/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
-#
-export PATH="/usr/lib64/ccache/bin:/usr/local/cuda/bin:/usr/nvidia/bin:/usr/bin/haswell:/usr/bin:/usr/sbin"
-#
+export PKG_CONFIG_PATH="/usr/lib64/pkgconfig:/usr/share/pkgconfig"
+export LD_LIBRARY_PATH="/usr/local/nvidia/lib64:/usr/local/nvidia/lib64/gbm:/usr/local/nvidia/lib64/vdpau:/usr/local/nvidia/lib64/xorg/modules/drivers:/usr/local/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/local/nvidia/lib32:/usr/local/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
+export LIBRARY_PATH="/usr/local/nvidia/lib64:/usr/local/nvidia/lib64/gbm:/usr/local/nvidia/lib64/vdpau:/usr/local/nvidia/lib64/xorg/modules/drivers:/usr/local/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/local/nvidia/lib32:/usr/local/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
+export PATH="/usr/lib64/ccache/bin:/usr/local/cuda/bin:/usr/local/nvidia/bin:/usr/bin/haswell:/usr/bin:/usr/sbin"
 export CPATH="/usr/local/cuda/include"
-#
 export DISPLAY=:0
-export __GL_SYNC_TO_VBLANK=0
-export __GL_SYNC_DISPLAY_DEVICE=DFP-1
-export VDPAU_NVIDIA_SYNC_DISPLAY_DEVICE=DFP-1
+export __GL_SYNC_TO_VBLANK=1
+export __GL_SYNC_DISPLAY_DEVICE=HDMI-0
+export VDPAU_NVIDIA_SYNC_DISPLAY_DEVICE=HDMI-0
 export LANG=en_US.UTF-8
 export XDG_CONFIG_DIRS=/usr/share/xdg:/etc/xdg
 export XDG_SEAT=seat0
@@ -409,44 +302,67 @@ export VDPAU_DRIVER=nvidia
 export LIBVA_DRIVER_NAME=vdpau
 export LIBVA_DRIVERS_PATH=/usr/lib64/dri
 export GTK_RC_FILES=/etc/gtk/gtkrc
-export FONTCONFIG_PATH=/usr/share/defaults/fonts
+export FONTCONFIG_PATH="/usr/share/defaults/fonts"
+export GTK_IM_MODULE="xim"
+export QT_IM_MODULE="cedilla"
+export FREETYPE_PROPERTIES="truetype:interpreter-version=40"
+export NO_AT_BRIDGE=1
+export GTK_A11Y=none
+export PLASMA_USE_QT_SCALING=1
+export QT_AUTO_SCREEN_SCALE_FACTOR=0
+export QT_ENABLE_HIGHDPI_SCALING=0
+export QT_FONT_DPI=88
+export GTK_USE_PORTAL=1
+export DESKTOP_SESSION=plasma
 ## altflags_pgo end
 if [ ! -f statuspgo ]; then
+
 echo PGO Phase 1
 export CFLAGS="${CFLAGS_GENERATE}"
 export CXXFLAGS="${CXXFLAGS_GENERATE}"
 export FFLAGS="${FFLAGS_GENERATE}"
 export FCFLAGS="${FCFLAGS_GENERATE}"
 export LDFLAGS="${LDFLAGS_GENERATE}"
-meson --libdir=lib64 --prefix=/usr --buildtype=release -Ddefault_library=both  -Dglib=enabled \
+export ASMFLAGS="${ASMFLAGS_GENERATE}"
+export LIBS="${LIBS_GENERATE}"
+CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" LIBS="$LIBS" meson --libdir=lib64 --sysconfdir=/usr/share --prefix=/usr --buildtype=plain -Ddefault_library=both  -Dglib=enabled \
 -Dgobject=enabled \
 -Dcairo=enabled \
 -Dicu=enabled \
 -Dgraphite=enabled \
+-Dgraphite2=enabled \
 -Dfreetype=enabled \
 -Dintrospection=enabled \
 -Ddocs=disabled \
 -Ddefault_library=both \
 -Dtests=enabled \
 -Dbenchmark=disabled builddir
-## make_prepend content
-sd "/usr/lib64/libz.so" "/usr/lib64/libz.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libbz2.so" "/usr/lib64/libbz2.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libpng16.so" "/usr/lib64/libpng16.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libpng.so" "/usr/lib64/libpng.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libfreetype.so" "/usr/lib64/haswell/libm.so.6 /usr/lib64/libfreetype.a /usr/lib64/libpng16.a /usr/lib64/libbrotlidec-static.a /usr/lib64/libbrotlicommon-static.a /usr/lib64/libbz2.a /usr/lib64/libz.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libgraphite2.so" "/usr/lib64/libgraphite2.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libglib-2.0.so" "/usr/lib64/libglib-2.0.a /usr/lib64/libpcre.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libgobject-2.0.so" "/usr/lib64/libgobject-2.0.a /usr/lib64/libpcre.a /usr/lib64/libffi.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-## make_prepend end
-ninja --verbose %{?_smp_mflags} -v -C builddir
+## make_prepend64 content
+sd "/usr/lib64/libz\.so" "/usr/lib64/libz.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libz\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libz.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libz\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libz.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd "/usr/lib64/libbz2\.so" "/usr/lib64/libbz2.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libbz2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libbz2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libbz2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libbz2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd "/usr/lib64/libpng16\.so" "/usr/lib64/libpng16.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libpng16\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng16.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libpng16\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng16.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd "/usr/lib64/libpng\.so" "/usr/lib64/libpng.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libpng\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libpng\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd "/usr/lib64/libgraphite2\.so" "/usr/lib64/libgraphite2.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libgraphite2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libgraphite2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libgraphite2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libgraphite2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+## make_prepend64 end
+ninja --verbose %{?_smp_mflags} -C builddir
+
 
 ## profile_payload start
 unset LD_LIBRARY_PATH
 unset LIBRARY_PATH
 meson test --verbose --num-processes 1 -C builddir || :
-export LD_LIBRARY_PATH="/usr/nvidia/lib64:/usr/nvidia/lib64/vdpau:/usr/nvidia/lib64/xorg/modules/drivers:/usr/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64/chromium:/usr/lib64:/usr/lib64/pulseaudio:/usr/lib64/alsa-lib:/usr/lib64/gstreamer-1.0:/usr/lib64/pipewire-0.3:/usr/lib64/spa-0.2:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/nvidia/lib32:/usr/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
-export LIBRARY_PATH="/usr/nvidia/lib64:/usr/nvidia/lib64/vdpau:/usr/nvidia/lib64/xorg/modules/drivers:/usr/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64/chromium:/usr/lib64:/usr/lib64/pulseaudio:/usr/lib64/alsa-lib:/usr/lib64/gstreamer-1.0:/usr/lib64/pipewire-0.3:/usr/lib64/spa-0.2:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/nvidia/lib32:/usr/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
+export LD_LIBRARY_PATH="/usr/local/nvidia/lib64:/usr/local/nvidia/lib64/gbm:/usr/local/nvidia/lib64/vdpau:/usr/local/nvidia/lib64/xorg/modules/drivers:/usr/local/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/local/nvidia/lib32:/usr/local/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
+export LIBRARY_PATH="/usr/local/nvidia/lib64:/usr/local/nvidia/lib64/gbm:/usr/local/nvidia/lib64/vdpau:/usr/local/nvidia/lib64/xorg/modules/drivers:/usr/local/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/local/nvidia/lib32:/usr/local/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
 ## profile_payload end
 find builddir/ -type f,l -not -name '*.gcno' -not -name 'statuspgo*' -delete -print  || :
 echo USED > statuspgo
@@ -458,30 +374,40 @@ export CXXFLAGS="${CXXFLAGS_USE}"
 export FFLAGS="${FFLAGS_USE}"
 export FCFLAGS="${FCFLAGS_USE}"
 export LDFLAGS="${LDFLAGS_USE}"
-meson --libdir=lib64 --prefix=/usr --buildtype=release -Ddefault_library=both -Dglib=enabled \
+export ASMFLAGS="${ASMFLAGS_USE}"
+export LIBS="${LIBS_USE}"
+CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" LIBS="$LIBS" meson --libdir=lib64 --sysconfdir=/usr/share --prefix=/usr --buildtype=plain -Ddefault_library=both -Dglib=enabled \
 -Dgobject=enabled \
 -Dcairo=enabled \
 -Dicu=enabled \
 -Dgraphite=enabled \
+-Dgraphite2=enabled \
 -Dfreetype=enabled \
 -Dintrospection=enabled \
 -Ddocs=disabled \
 -Ddefault_library=both \
 -Dtests=disabled \
 -Dbenchmark=disabled  builddir
-## make_prepend content
-sd "/usr/lib64/libz.so" "/usr/lib64/libz.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libbz2.so" "/usr/lib64/libbz2.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libpng16.so" "/usr/lib64/libpng16.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libpng.so" "/usr/lib64/libpng.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libfreetype.so" "/usr/lib64/haswell/libm.so.6 /usr/lib64/libfreetype.a /usr/lib64/libpng16.a /usr/lib64/libbrotlidec-static.a /usr/lib64/libbrotlicommon-static.a /usr/lib64/libbz2.a /usr/lib64/libz.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libgraphite2.so" "/usr/lib64/libgraphite2.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libglib-2.0.so" "/usr/lib64/libglib-2.0.a /usr/lib64/libpcre.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-sd "/usr/lib64/libgobject-2.0.so" "/usr/lib64/libgobject-2.0.a /usr/lib64/libpcre.a /usr/lib64/libffi.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$) $(fd -uu --follow .*ninja$)
-## make_prepend end
-ninja --verbose %{?_smp_mflags} -v -C builddir
-fi
+## make_prepend64 content
+sd "/usr/lib64/libz\.so" "/usr/lib64/libz.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libz\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libz.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libz\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libz.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd "/usr/lib64/libbz2\.so" "/usr/lib64/libbz2.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libbz2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libbz2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libbz2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libbz2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd "/usr/lib64/libpng16\.so" "/usr/lib64/libpng16.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libpng16\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng16.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libpng16\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng16.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd "/usr/lib64/libpng\.so" "/usr/lib64/libpng.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libpng\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libpng\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libpng.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd "/usr/lib64/libgraphite2\.so" "/usr/lib64/libgraphite2.a" $(fd -uu --glob *.ninja)
+sd '(LINK_LIBRARIES.+)(\s/usr/lib64/libgraphite2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libgraphite2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+sd '(LINK_FLAGS.+)(\s/usr/lib64/libgraphite2\.so)' -- '$1 -Wl,--whole-archive,--allow-multiple-definition,/usr/lib64/libgraphite2.a,-lpthread,-lrt,-ldl,-lm,-lmvec,--no-allow-multiple-definition,--no-whole-archive' $(fd -uu --glob *.ninja)
+## make_prepend64 end
+ninja --verbose %{?_smp_mflags} -C builddir
 
+fi
 pushd ../build32/
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -489,169 +415,64 @@ export NM=gcc-nm
 unset LD_LIBRARY_PATH
 unset LIBRARY_PATH
 unset CPATH
-export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 unset ASFLAGS
 unset CFLAGS
 unset CXXFLAGS
 unset FCFLAGS
 unset FFLAGS
-unset CFFLAGS
 unset LDFLAGS
-export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
+unset LINKFLAGS
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig:/usr/share/pkgconfig"
+export ASFLAGS="--32"
 export CFLAGS="-O2 -ffat-lto-objects -fuse-linker-plugin -pipe -fPIC -march=native -mtune=native -m32 -mstackrealign"
+export ASMFLAGS="-O2 -ffat-lto-objects -fuse-linker-plugin -pipe -fPIC -march=native -mtune=native -m32 -mstackrealign"
 export CXXFLAGS="-O2 -ffat-lto-objects -fuse-linker-plugin -fvisibility-inlines-hidden -pipe -fPIC -march=native -mtune=native -m32 -mstackrealign"
 export FCFLAGS="-O2 -ffat-lto-objects -fuse-linker-plugin -fvisibility-inlines-hidden -pipe -fPIC -march=native -mtune=native -m32 -mstackrealign"
 export FFLAGS="-O2 -ffat-lto-objects -fuse-linker-plugin -fvisibility-inlines-hidden -pipe -fPIC -march=native -mtune=native -m32 -mstackrealign"
-export CFFLAGS="-O2 -ffat-lto-objects -fuse-linker-plugin -fvisibility-inlines-hidden -pipe -fPIC -march=native -mtune=native -m32 -mstackrealign"
 export LDFLAGS="-O2 -ffat-lto-objects -fuse-linker-plugin -pipe -fPIC -march=native -mtune=native -m32 -mstackrealign"
-meson --libdir=lib32 --prefix=/usr --buildtype=release -Ddefault_library=both  -Dglib=disabled \
+CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" LIBS="$LIBS" meson --libdir=lib32 --sysconfdir=/usr/share --prefix=/usr --buildtype=plain -Ddefault_library=both  -Dglib=disabled \
 -Dgobject=disabled \
 -Dcairo=disabled \
 -Dicu=enabled \
--Dgraphite=enabled \
+-Dgraphite=disabled \
+-Dgraphite2=disabled \
 -Dfreetype=enabled \
 -Dintrospection=disabled \
 -Ddocs=disabled \
--Ddefault_library=both \
+-Ddefault_library=shared \
 -Dtests=disabled \
 -Dbenchmark=disabled builddir
-## make_prepend32 content
-sd "/usr/lib64/libgraphite2.so" "/usr/lib32/libgraphite2.so" $(fd -uu --glob *.ninja)
-## make_prepend32 end
-ninja --verbose %{?_smp_mflags} -v -C builddir
+ninja --verbose %{?_smp_mflags} -C builddir
+
 popd
 
 %install
 pushd ../build32/
 DESTDIR=%{buildroot} ninja -C builddir install
+
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
 then
 pushd %{buildroot}/usr/lib32/pkgconfig
 for i in *.pc ; do ln -s $i 32$i ; done
 popd
 fi
+if [ -d %{buildroot}/usr/share/pkgconfig ]
+then
+pushd %{buildroot}/usr/share/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
+popd
+fi
 popd
 DESTDIR=%{buildroot} ninja -C builddir install
+
 ## install_append content
-#rm -f %{buildroot}/usr/include/sndfile.hh
-install -dm 0755 %{buildroot}/usr/lib64/haswell/ || :
-cp --archive %{buildroot}/usr/lib64/libharfbuzz*.so* %{buildroot}/usr/lib64/haswell/ || :
+install -dm 0755 %{buildroot}/usr/lib64/haswell/
+pushd %{buildroot}/usr/lib64/haswell/
+for lib in ../lib*.so*; do
+    ln -sf $lib %{buildroot}/usr/lib64/haswell/;
+done
+popd
 ## install_append end
 
 %files
 %defattr(-,root,root,-)
-
-%files bin
-%defattr(-,root,root,-)
-/usr/bin/hb-ot-shape-closure
-/usr/bin/hb-shape
-/usr/bin/hb-subset
-/usr/bin/hb-view
-
-%files data
-%defattr(-,root,root,-)
-/usr/lib64/girepository-1.0/HarfBuzz-0.0.typelib
-/usr/share/gir-1.0/*.gir
-
-%files dev
-%defattr(-,root,root,-)
-/usr/include/harfbuzz/hb-aat-layout.h
-/usr/include/harfbuzz/hb-aat.h
-/usr/include/harfbuzz/hb-blob.h
-/usr/include/harfbuzz/hb-buffer.h
-/usr/include/harfbuzz/hb-common.h
-/usr/include/harfbuzz/hb-deprecated.h
-/usr/include/harfbuzz/hb-draw.h
-/usr/include/harfbuzz/hb-face.h
-/usr/include/harfbuzz/hb-font.h
-/usr/include/harfbuzz/hb-ft.h
-/usr/include/harfbuzz/hb-glib.h
-/usr/include/harfbuzz/hb-gobject-enums.h
-/usr/include/harfbuzz/hb-gobject-structs.h
-/usr/include/harfbuzz/hb-gobject.h
-/usr/include/harfbuzz/hb-graphite2.h
-/usr/include/harfbuzz/hb-icu.h
-/usr/include/harfbuzz/hb-map.h
-/usr/include/harfbuzz/hb-ot-color.h
-/usr/include/harfbuzz/hb-ot-deprecated.h
-/usr/include/harfbuzz/hb-ot-font.h
-/usr/include/harfbuzz/hb-ot-layout.h
-/usr/include/harfbuzz/hb-ot-math.h
-/usr/include/harfbuzz/hb-ot-meta.h
-/usr/include/harfbuzz/hb-ot-metrics.h
-/usr/include/harfbuzz/hb-ot-name.h
-/usr/include/harfbuzz/hb-ot-shape.h
-/usr/include/harfbuzz/hb-ot-var.h
-/usr/include/harfbuzz/hb-ot.h
-/usr/include/harfbuzz/hb-set.h
-/usr/include/harfbuzz/hb-shape-plan.h
-/usr/include/harfbuzz/hb-shape.h
-/usr/include/harfbuzz/hb-style.h
-/usr/include/harfbuzz/hb-subset.h
-/usr/include/harfbuzz/hb-unicode.h
-/usr/include/harfbuzz/hb-version.h
-/usr/include/harfbuzz/hb.h
-/usr/lib64/cmake/harfbuzz/harfbuzz-config.cmake
-/usr/lib64/haswell/libharfbuzz-gobject.so
-/usr/lib64/haswell/libharfbuzz-subset.so
-/usr/lib64/haswell/libharfbuzz.so
-/usr/lib64/libharfbuzz-gobject.so
-/usr/lib64/libharfbuzz-icu.so
-/usr/lib64/libharfbuzz-subset.so
-/usr/lib64/libharfbuzz.so
-/usr/lib64/pkgconfig/harfbuzz-gobject.pc
-/usr/lib64/pkgconfig/harfbuzz-icu.pc
-/usr/lib64/pkgconfig/harfbuzz-subset.pc
-/usr/lib64/pkgconfig/harfbuzz.pc
-
-%files dev32
-%defattr(-,root,root,-)
-/usr/lib32/cmake/harfbuzz/harfbuzz-config.cmake
-/usr/lib32/libharfbuzz-icu.so
-/usr/lib32/libharfbuzz-subset.so
-/usr/lib32/libharfbuzz.so
-/usr/lib32/pkgconfig/32harfbuzz-icu.pc
-/usr/lib32/pkgconfig/32harfbuzz-subset.pc
-/usr/lib32/pkgconfig/32harfbuzz.pc
-/usr/lib32/pkgconfig/harfbuzz-icu.pc
-/usr/lib32/pkgconfig/harfbuzz-subset.pc
-/usr/lib32/pkgconfig/harfbuzz.pc
-
-%files lib
-%defattr(-,root,root,-)
-/usr/lib64/haswell/libharfbuzz-gobject.so.0
-/usr/lib64/haswell/libharfbuzz-gobject.so.0.20802.0
-/usr/lib64/haswell/libharfbuzz-subset.so.0
-/usr/lib64/haswell/libharfbuzz-subset.so.0.20802.0
-/usr/lib64/haswell/libharfbuzz.so.0
-/usr/lib64/haswell/libharfbuzz.so.0.20802.0
-/usr/lib64/libharfbuzz-gobject.so.0
-/usr/lib64/libharfbuzz-gobject.so.0.20802.0
-/usr/lib64/libharfbuzz-icu.so.0
-/usr/lib64/libharfbuzz-icu.so.0.20802.0
-/usr/lib64/libharfbuzz-subset.so.0
-/usr/lib64/libharfbuzz-subset.so.0.20802.0
-/usr/lib64/libharfbuzz.so.0
-/usr/lib64/libharfbuzz.so.0.20802.0
-
-%files lib32
-%defattr(-,root,root,-)
-/usr/lib32/libharfbuzz-icu.so.0
-/usr/lib32/libharfbuzz-icu.so.0.20802.0
-/usr/lib32/libharfbuzz-subset.so.0
-/usr/lib32/libharfbuzz-subset.so.0.20802.0
-/usr/lib32/libharfbuzz.so.0
-/usr/lib32/libharfbuzz.so.0.20802.0
-
-%files staticdev
-%defattr(-,root,root,-)
-/usr/lib64/libharfbuzz-gobject.a
-/usr/lib64/libharfbuzz-icu.a
-/usr/lib64/libharfbuzz-subset.a
-/usr/lib64/libharfbuzz.a
-
-%files staticdev32
-%defattr(-,root,root,-)
-/usr/lib32/libharfbuzz-icu.a
-/usr/lib32/libharfbuzz-subset.a
-/usr/lib32/libharfbuzz.a

@@ -2,10 +2,11 @@
 -Dgobject=disabled
 -Dcairo=disabled
 -Dicu=enabled
--Dgraphite=enabled
+-Dgraphite=disabled
+-Dgraphite2=disabled
 -Dfreetype=enabled
 -Dintrospection=disabled
 -Ddocs=disabled
--Ddefault_library=both
+-Ddefault_library=shared
 -Dtests=disabled
 -Dbenchmark=disabled

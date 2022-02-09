@@ -3,6 +3,7 @@
 -Dcairo=enabled
 -Dicu=enabled
 -Dgraphite=enabled
+-Dgraphite2=enabled
 -Dfreetype=enabled
 -Dintrospection=enabled
 -Ddocs=disabled

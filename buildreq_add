@@ -11,8 +11,6 @@ bzip2-dev
 bzip2-dev32
 bzip2-staticdev
 cairo-dev
-cairo-dev32
-cairo-staticdev
 dbus
 dbus-dev
 dbus-glib
@@ -28,7 +26,6 @@ fontconfig-dev
 fonts-clear
 freetype-dev
 freetype-dev32
-freetype-staticdev
 gcc-dev
 gcc-dev32
 gcc-libgcc32
@@ -84,11 +81,8 @@ libXScrnSaver-dev
 libXScrnSaver-lib
 libxslt-bin
 libxslt-dev
-libxslt-staticdev
 libXtst-dev
 libXtst-lib
-libxvid-dev
-libxvid-staticdev
 libXxf86vm-dev
 libXxf86vm-lib
 m4
@@ -128,13 +122,9 @@ pixman-dev
 pixman-staticdev
 pkg-config
 pkg-config-dev
-pulseaudio
-pulseaudio-dev
-pyelftools
 python3-core
 python3-dev
 python3-staticdev
-requests
 util-linux
 util-linux-dev
 xdg-dbus-proxy
