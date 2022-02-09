@@ -19,3 +19,4 @@ rpms/
 for-review.txt
 *.tar
 *.gem
+!pgo.tar.gz

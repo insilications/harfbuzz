@@ -11,6 +11,9 @@ Source0  : file:///aot/build/clearlinux/packages/harfbuzz/harfbuzz-v3.3.2.tar.gz
 Summary  : HarfBuzz text shaping library
 Group    : Development/Tools
 License  : BSD-2-Clause
+Requires: harfbuzz-bin = %{version}-%{release}
+Requires: harfbuzz-data = %{version}-%{release}
+Requires: harfbuzz-lib = %{version}-%{release}
 BuildRequires : automake
 BuildRequires : automake-dev
 BuildRequires : buildreq-cmake
@@ -226,6 +229,75 @@ BuildRequires : zstd-staticdev
 This is HarfBuzz, a text shaping library.
 For bug reports, mailing list, and other information please visit:
 
+%package bin
+Summary: bin components for the harfbuzz package.
+Group: Binaries
+Requires: harfbuzz-data = %{version}-%{release}
+
+%description bin
+bin components for the harfbuzz package.
+
+
+%package data
+Summary: data components for the harfbuzz package.
+Group: Data
+
+%description data
+data components for the harfbuzz package.
+
+
+%package dev
+Summary: dev components for the harfbuzz package.
+Group: Development
+Requires: harfbuzz-lib = %{version}-%{release}
+Requires: harfbuzz-bin = %{version}-%{release}
+Requires: harfbuzz-data = %{version}-%{release}
+Provides: harfbuzz-devel = %{version}-%{release}
+Requires: harfbuzz = %{version}-%{release}
+
+%description dev
+dev components for the harfbuzz package.
+
+
+%package dev32
+Summary: dev32 components for the harfbuzz package.
+Group: Default
+Requires: harfbuzz-lib32 = %{version}-%{release}
+Requires: harfbuzz-bin = %{version}-%{release}
+Requires: harfbuzz-data = %{version}-%{release}
+Requires: harfbuzz-dev = %{version}-%{release}
+
+%description dev32
+dev32 components for the harfbuzz package.
+
+
+%package lib
+Summary: lib components for the harfbuzz package.
+Group: Libraries
+Requires: harfbuzz-data = %{version}-%{release}
+
+%description lib
+lib components for the harfbuzz package.
+
+
+%package lib32
+Summary: lib32 components for the harfbuzz package.
+Group: Default
+Requires: harfbuzz-data = %{version}-%{release}
+
+%description lib32
+lib32 components for the harfbuzz package.
+
+
+%package staticdev
+Summary: staticdev components for the harfbuzz package.
+Group: Default
+Requires: harfbuzz-dev = %{version}-%{release}
+
+%description staticdev
+staticdev components for the harfbuzz package.
+
+
 %prep
 %setup -q -n harfbuzz
 cd %{_builddir}/harfbuzz
@@ -239,7 +311,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1644403545
+export SOURCE_DATE_EPOCH=1644403673
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -418,3 +490,109 @@ popd
 
 %files
 %defattr(-,root,root,-)
+
+%files bin
+%defattr(-,root,root,-)
+/usr/bin/hb-ot-shape-closure
+/usr/bin/hb-shape
+/usr/bin/hb-subset
+/usr/bin/hb-view
+
+%files data
+%defattr(-,root,root,-)
+/usr/lib64/girepository-1.0/HarfBuzz-0.0.typelib
+/usr/share/gir-1.0/*.gir
+
+%files dev
+%defattr(-,root,root,-)
+/usr/include/harfbuzz/hb-aat-layout.h
+/usr/include/harfbuzz/hb-aat.h
+/usr/include/harfbuzz/hb-blob.h
+/usr/include/harfbuzz/hb-buffer.h
+/usr/include/harfbuzz/hb-common.h
+/usr/include/harfbuzz/hb-deprecated.h
+/usr/include/harfbuzz/hb-draw.h
+/usr/include/harfbuzz/hb-face.h
+/usr/include/harfbuzz/hb-font.h
+/usr/include/harfbuzz/hb-ft.h
+/usr/include/harfbuzz/hb-glib.h
+/usr/include/harfbuzz/hb-gobject-enums.h
+/usr/include/harfbuzz/hb-gobject-structs.h
+/usr/include/harfbuzz/hb-gobject.h
+/usr/include/harfbuzz/hb-graphite2.h
+/usr/include/harfbuzz/hb-icu.h
+/usr/include/harfbuzz/hb-map.h
+/usr/include/harfbuzz/hb-ot-color.h
+/usr/include/harfbuzz/hb-ot-deprecated.h
+/usr/include/harfbuzz/hb-ot-font.h
+/usr/include/harfbuzz/hb-ot-layout.h
+/usr/include/harfbuzz/hb-ot-math.h
+/usr/include/harfbuzz/hb-ot-meta.h
+/usr/include/harfbuzz/hb-ot-metrics.h
+/usr/include/harfbuzz/hb-ot-name.h
+/usr/include/harfbuzz/hb-ot-shape.h
+/usr/include/harfbuzz/hb-ot-var.h
+/usr/include/harfbuzz/hb-ot.h
+/usr/include/harfbuzz/hb-set.h
+/usr/include/harfbuzz/hb-shape-plan.h
+/usr/include/harfbuzz/hb-shape.h
+/usr/include/harfbuzz/hb-style.h
+/usr/include/harfbuzz/hb-subset.h
+/usr/include/harfbuzz/hb-unicode.h
+/usr/include/harfbuzz/hb-version.h
+/usr/include/harfbuzz/hb.h
+/usr/lib64/cmake/harfbuzz/harfbuzz-config.cmake
+/usr/lib64/haswell/libharfbuzz-subset.so
+/usr/lib64/haswell/libharfbuzz.so
+/usr/lib64/libharfbuzz-gobject.so
+/usr/lib64/libharfbuzz-icu.so
+/usr/lib64/libharfbuzz-subset.so
+/usr/lib64/libharfbuzz.so
+/usr/lib64/pkgconfig/harfbuzz-gobject.pc
+/usr/lib64/pkgconfig/harfbuzz-icu.pc
+/usr/lib64/pkgconfig/harfbuzz-subset.pc
+/usr/lib64/pkgconfig/harfbuzz.pc
+
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/cmake/harfbuzz/harfbuzz-config.cmake
+/usr/lib32/libharfbuzz-icu.so
+/usr/lib32/libharfbuzz-subset.so
+/usr/lib32/libharfbuzz.so
+/usr/lib32/pkgconfig/32harfbuzz-icu.pc
+/usr/lib32/pkgconfig/32harfbuzz-subset.pc
+/usr/lib32/pkgconfig/32harfbuzz.pc
+/usr/lib32/pkgconfig/harfbuzz-icu.pc
+/usr/lib32/pkgconfig/harfbuzz-subset.pc
+/usr/lib32/pkgconfig/harfbuzz.pc
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/haswell/libharfbuzz-subset.so.0
+/usr/lib64/haswell/libharfbuzz-subset.so.0.30302.0
+/usr/lib64/haswell/libharfbuzz.so.0
+/usr/lib64/haswell/libharfbuzz.so.0.30302.0
+/usr/lib64/libharfbuzz-gobject.so.0
+/usr/lib64/libharfbuzz-gobject.so.0.30302.0
+/usr/lib64/libharfbuzz-icu.so.0
+/usr/lib64/libharfbuzz-icu.so.0.30302.0
+/usr/lib64/libharfbuzz-subset.so.0
+/usr/lib64/libharfbuzz-subset.so.0.30302.0
+/usr/lib64/libharfbuzz.so.0
+/usr/lib64/libharfbuzz.so.0.30302.0
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libharfbuzz-icu.so.0
+/usr/lib32/libharfbuzz-icu.so.0.30302.0
+/usr/lib32/libharfbuzz-subset.so.0
+/usr/lib32/libharfbuzz-subset.so.0.30302.0
+/usr/lib32/libharfbuzz.so.0
+/usr/lib32/libharfbuzz.so.0.30302.0
+
+%files staticdev
+%defattr(-,root,root,-)
+/usr/lib64/libharfbuzz-gobject.a
+/usr/lib64/libharfbuzz-icu.a
+/usr/lib64/libharfbuzz-subset.a
+/usr/lib64/libharfbuzz.a
