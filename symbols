@@ -1,3 +1,5 @@
+libharfbuzz-gobject.so.0:__gcov_indirect_call_profiler_v4
+libharfbuzz-gobject.so.0:__gcov_indirect_call_profiler_v4_atomic
 libharfbuzz-gobject.so.0:hb_gobject_aat_layout_feature_selector_get_type
 libharfbuzz-gobject.so.0:hb_gobject_aat_layout_feature_type_get_type
 libharfbuzz-gobject.so.0:hb_gobject_blob_get_type
@@ -38,9 +40,20 @@ libharfbuzz-gobject.so.0:hb_gobject_unicode_combining_class_get_type
 libharfbuzz-gobject.so.0:hb_gobject_unicode_funcs_get_type
 libharfbuzz-gobject.so.0:hb_gobject_unicode_general_category_get_type
 libharfbuzz-gobject.so.0:hb_gobject_user_data_key_get_type
+libharfbuzz-gobject.so.0:mangle_path
+libharfbuzz-icu.so.0:__gcov_indirect_call_profiler_v4
+libharfbuzz-icu.so.0:__gcov_indirect_call_profiler_v4_atomic
 libharfbuzz-icu.so.0:hb_icu_get_unicode_funcs
 libharfbuzz-icu.so.0:hb_icu_script_from_script
 libharfbuzz-icu.so.0:hb_icu_script_to_script
+libharfbuzz-icu.so.0:mangle_path
+libharfbuzz-subset.so.0:__gcov_average_profiler_atomic
+libharfbuzz-subset.so.0:__gcov_indirect_call_profiler_v4
+libharfbuzz-subset.so.0:__gcov_indirect_call_profiler_v4_atomic
+libharfbuzz-subset.so.0:__gcov_interval_profiler_atomic
+libharfbuzz-subset.so.0:__gcov_ior_profiler_atomic
+libharfbuzz-subset.so.0:__gcov_pow2_profiler_atomic
+libharfbuzz-subset.so.0:__gcov_topn_values_profiler_atomic
 libharfbuzz-subset.so.0:hb_subset_input_create_or_fail
 libharfbuzz-subset.so.0:hb_subset_input_destroy
 libharfbuzz-subset.so.0:hb_subset_input_get_flags
@@ -52,6 +65,14 @@ libharfbuzz-subset.so.0:hb_subset_input_set_flags
 libharfbuzz-subset.so.0:hb_subset_input_set_user_data
 libharfbuzz-subset.so.0:hb_subset_input_unicode_set
 libharfbuzz-subset.so.0:hb_subset_or_fail
+libharfbuzz-subset.so.0:mangle_path
+libharfbuzz.so.0:__gcov_average_profiler_atomic
+libharfbuzz.so.0:__gcov_indirect_call_profiler_v4
+libharfbuzz.so.0:__gcov_indirect_call_profiler_v4_atomic
+libharfbuzz.so.0:__gcov_interval_profiler_atomic
+libharfbuzz.so.0:__gcov_ior_profiler_atomic
+libharfbuzz.so.0:__gcov_pow2_profiler_atomic
+libharfbuzz.so.0:__gcov_topn_values_profiler_atomic
 libharfbuzz.so.0:hb_aat_layout_feature_type_get_name_id
 libharfbuzz.so.0:hb_aat_layout_feature_type_get_selector_infos
 libharfbuzz.so.0:hb_aat_layout_get_feature_types
@@ -458,3 +479,4 @@ libharfbuzz.so.0:hb_variation_to_string
 libharfbuzz.so.0:hb_version
 libharfbuzz.so.0:hb_version_atleast
 libharfbuzz.so.0:hb_version_string
+libharfbuzz.so.0:mangle_path
